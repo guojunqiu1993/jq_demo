@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+	<display-name>WebModule1</display-name>
+	<listener>
+      <listener-class>com.zhongsou.monitor.listener.SessionCounter</listener-class>
+  </listener>
+
+	<servlet>
+		<servlet-name>UploadHandleServlet</servlet-name>
+		<servlet-class>com.zhongsou.monitor.action.ams.AmsSystemFileUploadAct</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UploadHandleServlet</servlet-name>
+		<url-pattern>/UploadHandleAct</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>
+			com.zhongsou.torqueframe.base.CharsetEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>filter</filter-name>
+		<filter-class>
+			com.zhongsou.monitor.action.authority.ActionFilteer
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>filter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<!-- 实现跨域 add by can at 20170914 -->
+	<filter>  
+	 <filter-name>cors</filter-name>  
+	 <filter-class>com.CorsFilter</filter-class>  
+	</filter>  
+	<filter-mapping>  
+	 <filter-name>cors</filter-name>  
+	 <url-pattern>/*</url-pattern>  
+	</filter-mapping>  
+	
+	<servlet>
+		<servlet-name>actions</servlet-name>
+		<servlet-class>
+			com.zhongsou.torqueframe.base.BaseServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/action-config.properties</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>initservlet</servlet-name>
+		<servlet-class>
+			com.zhongsou.torqueframe.base.InitServlet
+		</servlet-class>
+		<init-param>
+			<param-name>configfile</param-name>
+			<param-value>/WEB-INF/Torque.properties</param-value>
+		</init-param>
+		<init-param>
+			<param-name>logcfg</param-name>
+			<param-value>/WEB-INF/log4j.properties</param-value>
+		</init-param>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	
+	<!-- JasperReportImg -->
+	<servlet>
+		<servlet-name>ImageServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ImageServlet</servlet-name>
+		<url-pattern>/servlets/image</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet-mapping>
+		<servlet-name>actions</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<error-page>
+        <error-code>404</error-code>
+        <location>/common/404.html</location>
+    </error-page>
+	<welcome-file-list>
+		<welcome-file>bRedirect.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	
+	
+	<!-- feck -->
+	<servlet>
+		<servlet-name>Connector</servlet-name>
+		<servlet-class>com.FCKeditor.connector.ConnectorServlet</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/UserFiles/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>SimpleUploader</servlet-name>
+		<servlet-class>com.FCKeditor.uploader.SimpleUploaderServlet</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/UserFiles/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>enabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsFile</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsFile</param-name>
+			<param-value>php|php3|php5|phtml|asp|aspx|ascx|jsp|cfm|cfc|pl|bat|exe|dll|reg|cgi</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsImage</param-name>
+			<param-value>jpg|gif|jpeg|png|bmp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsImage</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsFlash</param-name>
+			<param-value>swf|fla</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsFlash</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	
+	<servlet-mapping>
+	    <servlet-name>Connector</servlet-name>
+	    <url-pattern>/plugin/fckeditor/editor/filemanager/browser/default/connectors/jsp/connector</url-pattern>
+	</servlet-mapping>
+	  <servlet-mapping>
+	    <servlet-name>SimpleUploader</servlet-name>
+	    <url-pattern>/plugin/fckeditor/editor/filemanager/upload/simpleuploader</url-pattern>
+	  </servlet-mapping>
+	  
+	  
+	  <!-- amcharts图表导出 -->
+	  <servlet>
+		<servlet-name>ImportAmcharts</servlet-name>
+		<servlet-class>com.zhongsou.monitor.json.view.ImportAmcharts</servlet-class>
+	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>ImportAmcharts</servlet-name>
+		<url-pattern>/ImportAmcharts</url-pattern>
+	</servlet-mapping>
+	  
+	  <!--fusioncharts  -->
+	  <servlet>
+    	<display-name>FCExporter</display-name>   
+        <servlet-name>FCExporter</servlet-name>   
+        <servlet-class>com.zhongsou.monitor.custom.mtools.FCExporter</servlet-class>   
+	</servlet>   
+        <servlet-mapping>   
+        <servlet-name>FCExporter</servlet-name>   
+        <url-pattern>/FCExporter</url-pattern>   
+	</servlet-mapping>   
+ <!--  <jsp-config>
+		<taglib>
+			<taglib-uri>/WEB-INF/FCKeditor.tld</taglib-uri>
+			<taglib-location>/WEB-INF/FCKeditor.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	 -->
+	 
+	 <servlet>
+		<display-name>LedRedirectServlet</display-name>
+		<servlet-name>LedRedirectServlet</servlet-name>
+		<servlet-class>com.zhongsou.monitor.servlet.LedRedirectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LedRedirectServlet</servlet-name>
+		<url-pattern>/led</url-pattern>
+	</servlet-mapping>
+</web-app>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-table.css">
+	<link rel="stylesheet" href="css/bootstrapValidator.min.css">
+	<link rel="stylesheet" href="css/sweetalert.css">
+	<link rel="stylesheet" href="css/bootstrap-switch.min.css">
+	<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+
+	<style>
+		.table_center td,.table_center th{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<input type="button" class="btn btn-default pull-left" value="批量删除" onclick="delBatch()" style="margin-top:10px;">
+		<!-- 表格 -->
+		<table id="LabelManageTB"></table>
+
+
+
+		<p>表格2</p>
+		<input type="button" class="btn btn-default pull-left" value="批量删除" onclick="delBatch2()">
+		<table class="table table-striped table-bordered table-hover fixed table_center" id="tab2">
+			<thead>
+				<tr>
+					<th width="4%"><input type="checkbox" id="label_search_all_check" onclick="checkAll();"/></th>
+					<th width="5%">序号</th>
+					<th width="12%">版块名称</th>
+					<th width="10%">客户组织</th>
+					<th width="8%">类型</th>
+					<th width="15%">关注媒体</th>
+					<th width="15%">展现方式</th>
+					<th width="15%">添加时间</th>
+					<th width="15%">操作</th>
+				</tr>
+			</thead>
+			<tbody id="sectionSet_content" style="min-height: 500px;">
+			</tbody>
+		</table>
+
+
+		
+
+		
+
+
+
+
+
+		
+
+	</div>
+
+
+
+
+
+<!-- 表格2 数据模板  -->
+<textarea id="sectionSet_template" style="display:none">
+	{for hit in dataList}
+		<tr class="item" id="@{hit.id}" sort="@{hit.sort}">
+			<td><input type="checkbox" class="search_check" value="@{hit.id}" onclick="checkFlag();"/></td>
+			<td>
+				@{index++}
+			</td>
+			<td>
+				@{hit.name}
+			</td>
+			<td>
+				@{hit.org_name}
+			</td>
+			<td>
+				{if hit.type == 0}
+					监测
+				{else}
+					专题
+				{/if}
+			</td>
+			<td title="@{hit.souces}">
+				{if !(hit.souces) || hit.souces=='' }
+					--
+				{else}
+					@{hit.souces}
+				{/if}
+			</td>
+		
+			{if hit.show_type == 0}
+			<td>首页</td>
+			{else}
+			<td>大屏幕</td>
+			{/if}
+
+			<td title="@{hit.created_at}">
+				@{hit.created_at}
+			</td>
+			<td>
+				<div class="btn-group btn-group-xs">
+					<button type="button" onclick="toEditSectionSet(@{hit.id})" class="btn btn-default">编辑</button>
+					<button type="button" onclick="deleteSectionSet(@{hit.id})" class="btn btn-default">删除</button>
+				</div>
+					
+			</td>
+			<td style="display: none;" id="sortChange">@{hit.sort}</td>
+			<td style="display: none;" id="sortId">@{hit.id}</td>
+		</tr>
+	{/for}
+</textarea>
+
+</body>
+</html>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/date.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.js"></script>
+<script src="js/bootstrap-table-zh-CN.js"></script>
+<script src="js/bootstrapValidator.min.js"></script> <!-- 表单验证 -->
+<script src="js/sweetalert.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/jquery.serialize-object.min.js"></script> <!-- 序列化字符串转换为对象 -->
+<script src="js/bootstrap-switch.min.js"></script>
+<!-- 数据模板加载 -->
+<script src="js/trimpath-template.js"></script>
+<script src="js/jquery.mCustomScrollbar.js"></script>
+
+<script>
+
+
+	$(function(){
+
+		//表格初始化
+		LM_table = new LabelManageTB();
+	    LM_table.Init();
+	    
+		
+	  	
+	  	
+	
+		
+	  	
+		ajax1();
+	
+
+
+	    
+
+
+	
+	})
+	
+
+
+
+	successFunction=function(){
+		alert(1);
+	}
+
+	//定义表格对象
+	var LabelManageTB = function () { 
+	    var _LabelManageTB = new Object();
+	    _LabelManageTB.Init = function () {
+	        $('#LabelManageTB').bootstrapTable({
+	            toolbar: '',                //工具按钮用哪个容器
+	            striped: true,                      //是否显示行间隔色
+	            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+	            pagination: true,                   //是否显示分页（*）
+	            sortable: false,                     //是否启用排序
+	            sortOrder: "asc",                   //排序方式
+	            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+	            strictSearch: true,
+	            showColumns: true,                  //是否显示所有的列
+	            showRefresh: true,                  //是否显示刷新按钮
+	            minimumCountColumns: 2,             //最少允许的列数
+	            clickToSelect: false,                //是否启用点击选中行
+	            height: 546,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+	            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+	            showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
+	            cardView: false,                    //是否显示详细视图
+	            detailView: false,                   //是否显示父子表
+	            columns: [{
+	            	width:"5%",
+	            	checkbox:true
+	            },{
+	                title: '序号',
+	                align: "center",
+	                width:"5%",
+	                formatter: function (value, row, index) {
+	                	var html='';
+	                	var num=index+1;
+	                	return '<span id="'+row.id+'">'+num+'</span>';
+					},
+	            },{
+	                field: 'name',
+	                title: '标签名称',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'type_name',
+	                title: '标签类型',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'keywords',
+	                title: '关键词',
+	                width: "15%",
+	                align: "center",
+	                formatter: function (value, row, index) {
+	                	var _html = "";
+	                	_html = value.length > 32 ? (value.substring(0,32)+"...") : value;
+	                	return "<span title='value'>"+ _html +"</span>";
+	                }
+	            },{
+	                field: 'org_name',
+	                title: '所属组织',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'created_at',
+	                title: '创建时间',
+	                width: "15%",
+	                align: "center",
+	                visible: false,
+	            },{
+	                field: 'update_at',
+	                title: '更新时间',
+	                width: "15%",
+	                align: "center",
+	                visible: false,
+	            },{
+	            	field:"id",
+	            	title:"操作"	,
+	            	width: "15%",
+	            	align: "center",
+	            	formatter: function (value,row) {
+	            		var _html ='<div class="btn-group btn-group-xs">' +
+					            		'<button type="button" class="btn btn-default" onclick="toLabelEdit('+ "'find'" +','+ row.id +')" >查看</button>' +
+					            		'<button type="button" class="btn btn-default" onclick="toLabelEdit('+ "'edit'" +','+ row.id +')" >编辑</button>' +
+					            		'<button type="button" class="btn btn-default" onclick="upLabelDel('+ row.id +')" >删除</button>' +
+							       '</div>';
+						return _html;
+					}
+	            }],
+	            onCheck: function(row, $element){
+	            	$element.val(row.id);
+	            },
+	            onColumnSwitch: function(field, checked){
+	            	$('#LabelManageTB').parents(".bootstrap-table").eq(0).find("input[data-field='org_name']").attr("disabled","disabled");
+	            }
+	        });
+	        
+	    };
+	    
+	    _LabelManageTB.setData = function(data){
+	    	$('#LabelManageTB').bootstrapTable("load",data);
+	    }
+
+	    return _LabelManageTB;
+	};
+
+
+	function ajax1(){
+		var loadObj=$("#LabelManageTB tbody");
+	
+		$.ajax({
+            //请求方式为get
+            type:"GET",
+            //json文件位置
+            url:"1.json",
+            //返回数据格式为json
+            dataType: "json",
+            //请求成功完成后要执行的方法
+            success: function(data){
+               		var list=data.list;
+               		
+               			LM_table.setData(list);
+               			
+      
+            },
+            error : function() {
+				hideLoad(loadObj);
+			},
+			beforeSend : function(xhr) {
+				showLoad(loadObj,'',520);
+			},
+			complete : function(XHR, TS) {
+				hideLoad(loadObj);
+				ajax2();
+			}
+        });
+	}
+	
+	
+	function ajax2(){
+		var loadObj=$(".table_center #sectionSet_content");
+		$.ajax({
+            //请求方式为get
+            type:"GET",
+            //json文件位置
+            url:"2.json",
+            //返回数据格式为json
+            dataType: "json",
+            //请求成功完成后要执行的方法
+            success: function(data){
+        		var list=data.list;
+        		
+        			var yhtml = TrimPath.processDOMTemplate("sectionSet_template", {"dataList":list,index:1});
+					$("#sectionSet_content").html(yhtml);
+        			
+        		
+            },
+            error : function() {
+				hideLoad(loadObj);
+			},
+			beforeSend : function(xhr) {
+				showLoad(loadObj,'','1520');
+			},
+			complete : function(XHR, TS) {
+				hideLoad(loadObj);
+				
+			}
+        });
+	}
+	
+
+
+
+</script>
+
+
+
+
+
+

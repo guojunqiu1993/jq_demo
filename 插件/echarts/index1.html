@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<div id="line" style='width: 60%;height:400px;'></div>
+	<div id="test" style='width: 80%;height:500px;'></div>
+	<div id="tree" style="width:100%;height:700px;"></div>	
+	<div id="huan" style="width:100%;height:500px;"></div>		
+	
+</body>
+</html>
+<script src="js/jquery-1.8.0.min.js"></script>
+<script src="js/echarts.js"></script>
+<script src="js/ecStat.js"></script>
+<script>
+$(function(){
+	//时间控制 折线图
+	var result={
+		"data1":[174,236,213,166,174,201,214,206,207,287,123,345,123,56,567,146],
+		"data2":[234,136,413,266,274,301,114,306,237,297,223,445,163,26,167,46],
+		"data3":[194,216,313,166,274,401,14,306,507,187,223,345,123,56,567,146],
+		"data4":[374,136,203,66,274,501,114,306,107,297,143,445,223,26,267,246],
+		"data5":[154,246,23,16,176,211,224,236,217,297,113,315,13,506,57,346],
+		"data6":[104,26,313,176,174,211,254,236,217,297,113,305,113,561,597,46],
+		"time":["2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08","2017-10-09","2017-10-10","2017-10-11","2017-10-12","2017-10-13","2017-10-14","2017-10-15","2017-10-16","2017-10-17"]
+	};
+	
+	//折线图
+	var myChart1 = echarts.init(document.getElementById('line'));
+	option1 = {
+		    tooltip : { trigger: 'axis'},
+		    legend: {
+		    	selected: {
+		    	'微博' : false,
+		    	'微信' : false,
+		    	'客户端' : false,
+		    	'传统媒体' : false,
+		    	'网站' : false
+		    	},
+		        data:['全部',"微博","微信","客户端","传统媒体","网站"]
+		    },
+		    toolbox: {
+		        show : false,
+		        feature : {
+		            saveAsImage : {show: false}
+		        }
+		    },
+		    calculable : true,
+		    dataZoom: {
+		        show: true,
+		        start :0
+		    },
+		    grid:{
+		    	left:'60',
+		    	top:'-20'
+		    	
+		    },
+		    calculable:false,
+		    xAxis : [{
+		            type : 'category',
+		            data : result["time"]
+		            }],
+		    yAxis : [{
+		            type : 'value'
+		        }],
+		    series : [
+		        {
+		            name:'全部',
+		            type:'line',
+		            showAllSymbol:true,
+		            boundaryGap : false,
+		            smooth:true,
+		            data:result["data1"]
+		        },
+		        {
+		            name:'微博',
+		            type:'line',
+		            showAllSymbol:true,
+		            smooth:true,
+		            data:result["data2"]
+		        },
+		        {
+		            name:'微信',
+		            type:'line',
+		            showAllSymbol:true,
+		            smooth:true,
+		            data:result["data3"]
+		        },
+		        {
+		            name:'客户端',
+		            type:'line',
+		            showAllSymbol:true,
+		            smooth:true,
+		            data:result["data4"]
+		        },
+		        {
+		            name:'传统媒体',
+		            type:'line',
+		            showAllSymbol:true,
+		            smooth:true,
+		            data:result["data5"]
+		        },
+		        {
+		            name:'网站',
+		            type:'line',
+		            showAllSymbol:true,
+		            smooth:true,
+		            data:result["data6"]
+		        }    
+		    ]
+	};
+	myChart1.setOption(option1);
+
+	var result1={
+		"data1":[174,236,213,166,174,201,214,206,207,287,123,345,123,56,567,146],
+		"data2":[234,136,413,266,274,301,114,306,237,297,223,445,163,26,167,46],
+		"data3":[194,216,313,166,274,401,14,306,507,187,223,345,123,56,567,146],
+		"data4":[374,136,203,66,274,501,114,306,107,297,143,445,223,26,267,246],
+		"data5":[154,246,23,16,176,211,224,236,217,297,113,315,13,506,57,346],
+		"time":["2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08","2017-10-09","2017-10-10","2017-10-11","2017-10-12","2017-10-13","2017-10-14","2017-10-15","2017-10-16","2017-10-17"]
+	};    
+    var data1 = [
+	    ['2016-06-29',2,5,6,8,9,40],
+	    ['2016-06-30',22,21,11,5,60,10],
+	    ['2016-07-01',56,9,63,3,14,5],
+	    ['2016-07-02',33,7,29,33,16,6],
+	    ['2016-07-03',42,24,44,76,40,16],
+	    ['2016-07-04',82,58,90,177,68,33],
+	    ['2016-07-05',74,49,77,146,48,27],
+	    ['2016-07-06',78,55,80,129,59,29],
+	    ['2016-07-07',267,216,280,48,108,64],
+	    ['2016-07-08',185,127,216,252,61,27],
+	    ['2016-07-09',22,21,11,5,60,10],
+	    ['2016-07-10',56,9,63,3,14,5],
+	    ['2016-07-11',33,7,29,33,16,6],
+	    ['2016-07-12',42,24,44,76,40,16],
+	    ['2016-07-13',82,58,90,177,68,33],
+	    ['2016-07-14',74,49,77,146,48,27],
+	    ['2016-07-15',78,55,80,129,59,29],
+	    ['2016-07-16',267,216,280,48,108,64],
+	    ['2016-07-17',185,127,216,252,61,27]
+	
+	];
+
+	var data2 = [
+	    ['2016-06-29',26,37,27,163,27,13],
+	    ['2016-06-30',85,62,71,95,60,8],
+	    ['2016-07-01',78,38,74,63,37,7],
+	    ['2016-07-02',21,21,36,34,40,9],
+	    ['2016-07-03',41,42,46,15,81,13],
+	    ['2016-07-04',56,52,69,67,92,16],
+	    ['2016-07-05',64,30,28,24,51,2],
+	    ['2016-07-06',55,48,74,36,75,26],
+	    ['2016-07-07',76,85,113,37,114,27],
+	    ['2016-07-08',91,81,104,41,56,40],
+	    ['2016-07-09',85,62,71,95,60,8],
+	    ['2016-07-10',78,38,74,63,37,7],
+	    ['2016-07-11',21,21,36,34,40,9],
+	    ['2016-07-12',41,42,46,15,81,13],
+	    ['2016-07-13',56,52,69,67,92,16],
+	    ['2016-07-14',64,30,28,24,51,2],
+	    ['2016-07-15',55,48,74,36,75,26],
+	    ['2016-07-16',76,85,113,37,114,27],
+	    ['2016-07-17',91,81,104,41,56,40]
+
+	];
+
+	var data3 = [
+	    ['2016-06-29',91,45,125,82,34,23],
+	    ['2016-06-30',65,27,78,86,45,29],
+	    ['2016-07-01',83,60,84,9,73,27],
+	    ['2016-07-02',109,81,121,28,68,51],
+	    ['2016-07-03',106,77,114,17,55,51],
+	    ['2016-07-04',109,81,121,28,68,51],
+	    ['2016-07-05',106,77,114,37,55,51],
+	    ['2016-07-06',89,65,78,86,51,26],
+	    ['2016-07-07',53,33,47,64,50,17],
+	    ['2016-07-08',80,55,80,101,75,24],
+	    ['2016-07-09',65,27,78,86,45,29],
+	    ['2016-07-10',83,60,84,9,73,27],
+	    ['2016-07-11',109,81,121,28,68,51],
+	    ['2016-07-12',106,77,114,17,55,51],
+	    ['2016-07-13',109,81,121,28,68,51],
+	    ['2016-07-14',106,77,114,37,55,51],
+	    ['2016-07-15',89,65,78,86,51,26],
+	    ['2016-07-16',53,33,47,64,50,17],
+	    ['2016-07-17',80,55,80,101,75,24]
+
+
+	];
+	var data4 = [
+	    ['2016-06-29',34,27,37,163,57,3],
+	    ['2016-06-30',45,12,31,105,40,28],
+	    ['2016-07-01',58,68,44,63,67,17],
+	    ['2016-07-02',41,31,26,34,20,19],
+	    ['2016-07-03',21,32,36,25,51,23],
+	    ['2016-07-04',56,32,39,67,42,46],
+	    ['2016-07-05',54,20,18,34,41,12],
+	    ['2016-07-06',55,38,64,26,85,16],
+	    ['2016-07-07',56,35,13,47,14,67],
+	    ['2016-07-08',91,31,14,41,56,40],
+	    ['2016-07-09',45,12,31,105,40,28],
+	    ['2016-07-10',58,68,44,63,67,17],
+	    ['2016-07-11',41,31,26,34,20,19],
+	    ['2016-07-12',21,32,36,25,51,23],
+	    ['2016-07-13',56,32,39,67,42,46],
+	    ['2016-07-14',54,20,18,34,41,12],
+	    ['2016-07-15',55,38,64,26,85,16],
+	    ['2016-07-16',56,35,13,47,14,67],
+	    ['2016-07-17',91,31,14,41,56,40]
+
+	];
+
+	var data5 = [
+	    ['2016-06-29',41,35,125,22,34,23],
+	    ['2016-06-30',65,27,78,36,45,29],
+	    ['2016-07-01',83,60,84,49,73,27],
+	    ['2016-07-02',109,81,71,28,68,51],
+	    ['2016-07-03',106,77,14,57,55,51],
+	    ['2016-07-04',109,51,21,48,68,51],
+	    ['2016-07-05',106,47,114,37,55,51],
+	    ['2016-07-06',89,35,78,26,51,26],
+	    ['2016-07-07',53,53,47,64,50,17],
+	    ['2016-07-08',80,45,80,31,75,24],
+	    ['2016-07-09',65,27,78,36,45,29],
+	    ['2016-07-10',83,60,84,49,73,27],
+	    ['2016-07-11',109,81,71,28,68,51],
+	    ['2016-07-12',106,77,14,57,55,51],
+	    ['2016-07-13',109,51,21,48,68,51],
+	    ['2016-07-14',106,47,114,37,55,51],
+	    ['2016-07-15',89,35,78,26,51,26],
+	    ['2016-07-16',53,53,47,64,50,17],
+	    ['2016-07-17',80,45,80,31,75,24]
+
+	];
+	//散点图
+	var myChart2= echarts.init(document.getElementById('test'));
+	option2 = {
+		color:['#ffa46d','#4ef46d','#ff7387','#af99ff','#448eff'],
+	    legend: {
+	        y: 'top',
+	        selected: {
+		    	'微博' : true,
+		    	'微信' : false,
+		    	'客户端' : false,
+		    	'传统媒体' : false,
+		    	'网站' : false
+	    	},
+	        data: ['微博', '微信', '客户端','传统媒体','网站'],
+	        textStyle: {
+	            color: '#000',
+	            fontSize: 16
+	        }
+	    },
+	    grid: {
+	        x: '10%',
+	        x2: 150,
+	        y: '12%',
+	        y2: '15%'
+	    },
+	    dataZoom: {
+	        show: true,
+	        start :0
+	    },
+	    xAxis: {
+	        type: 'time',
+	        name: '日期',	       
+	        nameTextStyle: {
+	            color: '#000',
+	            fontSize: 14
+	        },
+
+	        splitLine: {
+	            show: false
+	        },
+	        axisLine: {
+	            lineStyle: {
+	                color: '#000'
+	            }
+	        }
+	    },
+	    yAxis: {
+	        type: 'value',	
+	        nameLocation: 'end',
+	        nameTextStyle: {
+	            color: '#000',
+	            fontSize: 16
+	        },
+	        axisLine: {
+	            lineStyle: {
+	                color: '#000'
+	            }
+	        },
+	        splitLine: {
+	            show: false
+	        }
+	    },
+	    visualMap: [
+	        {
+	            left: 'right',
+	            top: '10%',
+	            dimension: 2,
+	            min: 0,
+	            max: 250,
+	            itemWidth: 30,
+	            itemHeight: 120,
+	            calculable: true,
+	            precision: 0.1,
+	            text: ['圆形大小：PM2.5'],
+	            textGap: 30,
+	            textStyle: {
+	                color: '#fff'
+	            },
+	            inRange: {
+	                symbolSize: [10, 70]
+	            },
+	            outOfRange: {
+	                symbolSize: [10, 70],
+	                color: ['rgba(255,255,255,.2)']
+	            },
+	            controller: {
+	                inRange: {
+	                    color: ['#fff']
+	                },
+	                outOfRange: {
+	                    color: ['#fff']
+	                }
+	            }
+	        }
+
+	    ],
+	    series: [
+	        {
+	            name: '微博',
+	            type: 'scatter',
+	            data: data1
+	        },
+	        {
+	            name: '微信',
+	            type: 'scatter',
+	            data: data2
+	        },
+	        {
+	            name: '客户端',
+	            type: 'scatter',
+	            data: data3
+	        },
+	        {
+	            name: '传统媒体',
+	            type: 'scatter',
+	            data: data4
+	        },
+	        {
+	            name: '网站',
+	            type: 'scatter',
+	            data: data5
+	        }
+	    ]
+	};
+	myChart2.setOption(option2); 
+
+	var data = [{
+		"ID": "1",
+		"name": "flare",
+		"transpond": "234",
+		"comment": "200",
+		"read": "677",
+		"chrenLength": "2",
+		"children": [{
+				"ID": "11",
+				"name": "analytics",
+				"transpond": "234",
+				"comment": "200",
+				"read": "677",
+				"chrenLength": "3",
+				"children": [{
+					"ID": "111",
+					"name": "cluster",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+					"chrenLength": "4",
+					"children": [{
+						"ID": "1111",
+						"name": "AgglomerativeCluster",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1112",
+						"name": "CommunityStructure",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1113",
+						"name": "HierarchicalCluster",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1114",
+						"name": "MergeEdge",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}]
+				}, {
+					"ID": "112",
+					"name": "graph",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+					"chrenLength": "5",
+					"children": [{
+						"ID": "1121",
+						"name": "BetweennessCentrality",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1122",
+						"name": "LinkDistance",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1123",
+						"name": "MaxFlowMinCut",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1124",
+						"name": "ShortestPaths",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}, {
+						"ID": "1125",
+						"name": "SpanningTree",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}]
+				}, {
+					"ID": "113",
+					"name": "optimization",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+					"chrenLength": "1",
+					"children": [{
+						"name": "AspectRatioBanker",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					}]
+				}]
+			}, {
+				"ID": "12",
+				"name": "animate",
+				"transpond": "234",
+				"comment": "200",
+				"read": "677",
+				"chrenLength": "12",
+				"children": [{
+					"ID": "121",
+					"name": "Easing",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+					
+				}, {
+					"ID": "122",
+					"name": "FunctionSequence",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+					
+				}, {
+					"ID": "123",
+					"name": "interpolate",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+					"chrenLength": "9",
+					"children": [{
+						"ID": "1230",
+						"name": "ArrayInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+			
+					}, {
+						"ID": "1231",
+						"name": "ColorInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+						
+					}, {
+						"ID": "1232",
+						"name": "DateInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+					
+					}, {
+						"ID": "1233",
+						"name": "Interpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+		
+					}, {
+						"ID": "1234",
+						"name": "MatrixInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+				
+					}, {
+						"ID": "1235",
+						"name": "NumberInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+		
+					}, {
+						"ID": "1236",
+						"name": "ObjectInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+
+						
+					}, {
+						"ID": "1237",
+						"name": "PointInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+		
+					}, {
+						"ID": "1238",
+						"name": "RectangleInterpolator",
+						"transpond": "234",
+						"comment": "200",
+						"read": "677",
+			
+					}]
+				}, {
+					"ID": "124",
+					"name": "ISchedulable",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+	
+				}, {
+					"ID": "125",
+					"name": "Parallel",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+				}, {
+					"ID": "126",
+					"name": "Pause",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+				}, {
+					"ID": "127",
+					"name": "Scheduler",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+				}, {
+					"ID": "128",
+					"name": "Sequence",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+				}, {
+					"ID": "129",
+					"name": "Transition",
+					"transpond": "234",
+					"comment": "200",
+					"read": "677",
+
+				}]
+			},
+	
+		]
+	}];
+	
+	var result1={
+		"data1":data,
+		"data2":[234,136,413,266,274,301,114,306,237,297,223,445,163,26,167,46],
+		"time":["2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08","2017-10-09","2017-10-10","2017-10-11","2017-10-12","2017-10-13","2017-10-14","2017-10-15","2017-10-16","2017-10-17"]
+	};
+	
+	var myChart3 = echarts.init(document.getElementById('tree'));
+
+	myChart3.hideLoading();
+
+	myChart3.on('click', function (handler) {
+		console.dir(handler);  
+	});
+
+	
+	 var option3 = {			
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        xAxis : [{
+    		type : 'category',
+    		data : '',
+    		show:false
+	    }],
+	    yAxis : [{
+	        type : 'value',
+	        show : false
+	    }],
+	    calculable : true,
+	    grid:{
+	    	left:'60',
+	    	top:'25'
+	    	
+	    },
+		series: [
+           {
+                name:'树图',  
+	            type:'tree',  
+	            orient: 'horizontal',  // vertical horizontal  
+	            rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}  
+	            nodePadding: 30,  
+	            symbol: 'circle',  
+	            symbolSize: 10,  
+
+                data: result1["data1"],
+                initialTreeDepth:3,
+                clickable : true,
+
+                top: '1%',
+                left: '7%',
+                bottom: '5%',
+                right: '20%',
+
+                itemStyle: {
+	                normal: {
+	                	color:"#ff3c58",
+	                	borderWidth:0,
+	                    label: {
+	                        show: true,
+	                        position: 'right',
+	                        textStyle: {
+	                            color: '#333333',
+	                            fontSize: 15,
+	                            fontWeight: 'normal'
+	                        }
+	                    },
+	                    lineStyle: {
+	                        color: '#ff9142',
+	                        width: 1,
+	                        type: 'solid' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+	                    }
+	                },
+	                emphasis: {
+	                    label: {
+	                        show: false
+	                    }
+	                }
+	            },
+
+                label: {
+                    normal: {
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'right',
+                        fontSize: 9
+                    }
+                },
+
+                leaves: {
+                    label: {
+                        normal: {
+                            position: 'right',
+                            verticalAlign: 'middle',
+                            align: 'left'
+                        }
+                    }
+                },
+                tooltip:{
+                	formatter:function(params){
+                		var value = params.data;
+			            return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+			                + value.name
+			                + '</div>'
+			                + "转发量" + '：' + value.transpond + '<br>'
+			                + "评论量 "+ '：' + value.comment + '<br>'
+			                + "阅读量" + '：' + value.read + '<br>';
+                	}
+                },
+                expandAndCollapse: true,
+                animationDuration: 2000,
+                animationDurationUpdate: 750,
+                animationDelay: function (idx) {
+		            return idx * 10 + 100;
+		        },
+                animationDelayUpdate: function (idx) {
+			        return idx * 5;
+			    }
+            }
+        ]
+        
+  };
+	
+myChart3.setOption(option3);
+
+
+var data4 = [
+	{value: '30', name: '负面', percent: '30%',itemStyle: {normal: {color: 'orange'} } },
+	{value: '50', name: '中性', percent: '50%',itemStyle: {normal: {color: 'red'} } }, 
+	{value: '20', name: "正面", percent: '20%',itemStyle: {normal: {color: 'green'} } } 
+];
+
+var myChart4 = echarts.init(document.getElementById('huan'));
+option4 = {
+	tooltip: {
+		trigger: 'item',
+		formatter: '{b}: {c} ({d}%)'
+	},
+	backgroundColor:'#ffffff',
+	title: [{
+			text: "舆情总数",
+			left: '49%',
+			top: '60%',
+			textAlign: 'center',
+			textBaseline: 'middle',
+			textStyle: {
+				color: '#333',
+				fontWeight: 'normal',
+				fontSize: 16
+			}
+		}, 
+		{
+			text: 5000,
+			left: '49%',
+			top: '43%',
+			textAlign: 'center',
+			textBaseline: 'middle',
+			textStyle: {
+				color: '#141414',
+				fontFamily: 'Arial',
+				fontWeight: '600',
+				fontSize: 32
+			}
+		}
+	],
+	series: [{
+        type: 'pie',
+        name: '',
+        radius: ['100%', '100%'],
+        center: ['50%', '50%'],
+        avoidLabelOverlap: false,
+        silent: true,
+        data: [{
+            value: 1,
+            itemStyle: {
+                normal: {
+                    color: '#FFF',
+                    borderColor: '#dde5ef',
+                    borderType: 'solid',
+                    borderWidth: 1,
+                    /*shadowBlur: 50,
+                    shadowColor: '#CCCC99*/
+                }
+            }
+        }]
+    },{
+		hoverAnimation: false, //设置饼图默认的展开样式
+		radius: ['63%', '93%'],
+		name: 'pie',
+		type: 'pie',
+		selectedMode: 'single',
+		selectedOffset: 16, //选中是扇区偏移量
+		clockwise: true,
+		startAngle: 90,
+		label: {
+			normal: {
+				show: false
+			}
+		},
+		labelLine: {
+			normal: {
+				show: false
+			}
+		},
+		itemStyle: {
+			normal: {
+				borderWidth: 3,
+				borderColor: '#ffffff',
+			},
+			emphasis: {
+				borderWidth: 0,
+				shadowBlur: 5,
+				shadowOffsetX: 0,
+				shadowColor: 'rgba(0, 0, 0, 0.2)'
+			}
+		},
+		data: data4
+	}]
+ };
+ myChart4.setOption(option4, true);
+
+
+})
+</script>

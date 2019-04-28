@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Carousel Template for Bootstrap</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container text-center">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">添加信息</button>
+</div>
+
+<div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updateform" novalidate="novalidate">        
+                
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">
+                            用户名: 
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="loginname" placeholder="请输入名字">   
+                        </div>
+                    </div>
+                
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">                          
+                            Email: 
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="email" placeholder="请输入邮箱">  
+                        </div>                       
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">                          
+                            电话: 
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="phone" placeholder="请输入电话号码">  
+                        </div>                       
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">                          
+                            收货地址: 
+                        </label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="address"></textarea> 
+                        </div>                       
+                    </div>
+                                                                                                                                                                                                
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="text-right">
+                    <input type="button" class="btn btn-default" value="取消" data-dismiss="modal">
+                    <input type="button" class="btn btn-default" value="确定" onclick="confirmPersonAdd();">                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+<script src="js/jquery.serialize-object.min.js"></script>
+<script type='text/javascript'>
+
+    $(function () {
+        //表单验证初始化
+        formValidator();
+
+
+        //关闭模态框 重置表单 清空验证提示信息
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            $('#updateform')[0].reset(); 
+            $("#updateform").data('bootstrapValidator').destroy();
+            $('#updateform').data('bootstrapValidator', null);  
+            formValidator('exampleModal');    
+        })
+
+
+
+    });
+
+
+    function confirmPersonAdd(){
+        //进行表单验证
+        var bv = $('#updateform').data('bootstrapValidator');
+        bv.validate();
+        //如果通过
+        if (bv.isValid()) {
+            console.log($('#updateform').serialize());  
+            console.log($("#updateform").serializeObject()); 
+            $('#updateform')[0].reset(); 
+            formValidator();  
+            $('#exampleModal').modal('hide');    
+        }
+    }
+
+
+
+    //表单验证
+    function formValidator(){
+        $('#updateform').bootstrapValidator({
+            message: '输入值不合法',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                loginname: {
+                    message: '用户名不合法',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 30,
+                            message: '请输入3到30个字符'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\. \u4e00-\u9fa5 ]+$/,
+                            message: '用户名只能由字母、数字、点、下划线和汉字组成 '
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'email不能为空'
+                        },
+                        emailAddress: {
+                            message: '请输入正确的邮件地址如：123@qq.com'
+                        }
+                    }
+                }, phone: {
+                    validators: {
+                        notEmpty: {
+                            message: '手机号不能为空'
+                        },
+                        regexp: {
+                            regexp: "^([0-9]{11})?$",
+                            message: '手机号码格式错误'
+                        }
+                    }
+                }, address: {
+                    validators: {
+                        notEmpty: {
+                            message: '地址不能为空'
+                        }, stringLength: {
+                            min: 8,
+                            max: 60,
+                            message: '请输入5到60个字符'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+
+
+    
+
+</script>
+</body>
+</html>

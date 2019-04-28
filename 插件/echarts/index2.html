@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />  
+<title></title>  
+<link type="text/css" href="css/style.css" rel="stylesheet" /> 
+<style>
+	*{margin:0;padding:0;font-size:12px;}  
+body{ background:none;}  
+input,button,select,textarea{outline:none;}  
+ul,li,dl,ol{list-style:none;}  
+a{color:#666; text-decoration:none;}  
+  
+.box{ width:980px; margin:0 auto;}  
+.bcon{ width:400px;  margin:30px auto;}  
+.bcon h1{ border-bottom:1px solid #eee; padding:0 10px;}  
+.bcon h1 b{ font:bold 14px/40px '宋体'; border-top:2px solid #3492D1; padding:0 8px; margin-top:-1px; display:inline-block;}  
+
+.list_lh{margin-right: 50px;}
+.list_lh,.list_lh2{ height:400px; overflow:hidden;background: #ccc;}  
+.list_lh li,.list_lh2 li{ padding:10px;}  
+.list_lh li.lieven,.list_lh2 li.lieven{ background:#F0F2F3;}  
+.list_lh li p,.list_lh2 li p{ height:24px; line-height:24px;}  
+.list_lh li p a,.list_lh2 li p a{ float:left;}  
+.list_lh li p em,.list_lh2 li p em{ width:80px; font:normal 12px/24px Arial; color:#FF3300; float:right; display:inline-block;}  
+.list_lh li p span,.list_lh2 li p span{ color:#999; float:right;}  
+.list_lh li p a.btn_lh,.list_lh2 li p a.btn_lh{ background:#28BD19; height:17px; line-height:17px; color:#fff; padding:0 5px; margin-top:4px; display:inline-block;}  
+.btn_lh:hover{ color:#fff; text-decoration:none;}  
+  
+.btm p{ font:normal 12px/24px 'Microsoft YaHei'; text-align:center;}  
+</style> 
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>  
+
+<script type="text/javascript">  
+ 
+$(function(){  
+
+	$.fn.myScroll = function(options){  
+    //默认配置  
+    var defaults = {  
+        speed:40,  //滚动速度,值越大速度越慢  
+        rowHeight:24 //每行的高度  
+    };  
+      
+    var opts = $.extend({}, defaults, options),intId = [];  
+      
+    function marquee(obj, step){  
+      
+        obj.find("ul").animate({  
+            marginTop: '-=1'  
+        },0,function(){  
+                var s = Math.abs(parseInt($(this).css("margin-top")));  
+                if(s >= step){  
+                    $(this).find("li").slice(0, 1).appendTo($(this));  
+                    $(this).css("margin-top", 0);  
+                }  
+            });  
+        }  
+          
+        this.each(function(i){  
+            var sh = opts["rowHeight"],speed = opts["speed"],_this = $(this);  
+            intId[i] = setInterval(function(){  
+                if(_this.find("ul").height()<=_this.height()){  
+                    clearInterval(intId[i]);  
+                }else{  
+                    marquee(_this, sh);  
+                }  
+            }, speed);  
+  
+            _this.hover(function(){  
+                clearInterval(intId[i]);  
+            },function(){  
+                intId[i] = setInterval(function(){  
+                    if(_this.find("ul").height()<=_this.height()){  
+                        clearInterval(intId[i]);  
+                    }else{  
+                        marquee(_this, sh);  
+                    }  
+                }, speed);  
+            });  
+          
+        });  
+  
+    }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $("div.list_lh").myScroll({  
+        speed:40, //数值越大，速度越慢  
+        rowHeight:68 //li的高度  
+    });  
+
+    $("div.list_lh2").myScroll({  
+        speed:40, //数值越大，速度越慢  
+        rowHeight:68 //li的高度  
+    }); 
+
+});  
+</script>  
+</head>  
+  
+<body>  
+<div class="box">  
+    <div class="bcon" style="display: flex;">  
+  
+        <!-- 代码开始 -->  
+        <div class="list_lh">  
+            <ul>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">1</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">2</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">3</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">4</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">5</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">6</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">7</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">8</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">9</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">10</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">11</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">12</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+            </ul>  
+        </div>  
+
+
+
+
+         <div class="list_lh2">  
+            <ul>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">1</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">2</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">3</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">4</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">5</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">6</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">7</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">8</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">9</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">10</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">11</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+                <li>  
+                    <p><a href="http://www.16sucai.com/" target="_blank">12</a><a href="http://www.16sucai.com/" target="_blank" class="btn_lh">领号</a></p>  
+                    <p><a href="http://www.16sucai.com/" target="_blank" class="a_blue">网游战江湖公测豪华礼包</a><span>17:28:05</span></p>  
+                </li>  
+            </ul>  
+        </div>
+ 
+    </div>  
+      
+   
+      
+</div>  
+  
+</body>  
+</html>  

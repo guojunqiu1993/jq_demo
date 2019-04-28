@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<style>
+		.test p{
+			color:#000;
+		}
+	</style>
+</head>
+<body>
+	<div class="test">
+		<p onclick="color($(this))">生活</p>
+		<p onclick="color($(this))">是否</p>
+		<p onclick="color($(this))">阿达</p>
+	</div>
+</body>
+</html>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+	//each的2种写法
+	$(function(){
+		var arr=[1,2,3];
+		$.each(arr,function(index,value){
+			console.log(value);
+		})
+	})
+
+
+	function color(dom,name){
+		$(".test p").each(function(index,value){
+			//value是 js的dom 
+			$(value).css('color','#000');
+		})
+		dom.css('color','#f00');
+	}
+</script>
+
+
+
+
+
+

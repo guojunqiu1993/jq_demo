@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-table.css">
+	<link rel="stylesheet" href="css/bootstrapValidator.min.css">
+	<link rel="stylesheet" href="css/sweetalert.css">
+	<link rel="stylesheet" href="css/bootstrap-switch.min.css">
+	<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+
+	<style>
+		.table_center td,.table_center th{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<input type="button" class="btn btn-default pull-left" value="批量删除" onclick="delBatch()" style="margin-top:10px;">
+		<!-- 表格 -->
+		<table id="LabelManageTB"></table>
+		<div id="test" style="width:100%;height:200px;border:solid 1px red;margin:20px 0;"></div>
+
+
+		<p>表格2</p>
+		<input type="button" class="btn btn-default pull-left" value="批量删除" onclick="delBatch2()">
+		<table class="table table-striped table-bordered table-hover fixed table_center">
+			<thead>
+				<tr>
+					<th width="4%"><input type="checkbox" id="label_search_all_check" onclick="checkAll();"/></th>
+					<th width="5%">序号</th>
+					<th width="12%">版块名称</th>
+					<th width="10%">客户组织</th>
+					<th width="8%">类型</th>
+					<th width="15%">关注媒体</th>
+					<th width="15%">展现方式</th>
+					<th width="15%">添加时间</th>
+					<th width="15%">操作</th>
+				</tr>
+			</thead>
+			<tbody id="sectionSet_content">
+			</tbody>
+		</table>
+
+
+		
+
+		
+		<div class="scroll" style="width:200px;height:100px;border:solid 1px #ccc;margin:20px 0;">
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+			<p>你好</p>
+		</div>
+
+		<!-- 点击弹出模态框  -->
+		<input type="button" style="margin:10px 0;" class="btn btn-primary" name="save" value="弹出模态框" onclick="showContainer();"/>
+
+
+
+		
+
+	</div>
+
+
+<!-- 点击弹出模态框  表单验证-->
+<div class="modal fade" id="heatSingleAddWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">添加</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="heatAddWindowForm">		
+				
+					<div class="form-group clearfix">
+						<label class="col-sm-3 control-label" >
+							类型： 
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text" value="微信" name="type" readonly="readonly" />	
+							<input type="hidden" value="1" name="media_type"/>	
+						    <input type="hidden" name="wechat_id" value=""/>
+						    <input type="hidden" name="option" value=""/>
+						    <input type="hidden" name="id" value=""/>
+						</div>
+					</div>
+										
+					<div class="form-group clearfix">
+						<label class="col-sm-3 control-label" >
+							采集频率： 
+						</label>
+						<div class="col-sm-8">
+							<select class="form-control" name="send_cycle">
+								<option value="30" selected>0.5小时</option>
+								<option value="60">1小时</option>
+								<option value="360">6小时</option>
+								<option value="720">12小时</option>
+								<option value="1440">1天</option>
+							</select>
+						</div>
+					</div> 
+					
+					<div class="form-group clearfix">
+						<label class="col-sm-3 control-label" >								
+							是否开启预警： 
+						</label>
+						<div class="col-sm-8">	
+							<div class="switch" id="mySwitch1">  
+								 <input type="checkbox" checked data-on-text="ON" data-off-text="OFF"/> 							 
+							 </div> 
+							  <input type="hidden" name="is_warning" value="1"/>
+						</div> 
+					</div>
+					
+					
+					<div class="form-group clearfix">
+						<label class="col-sm-3 control-label">
+						
+							推送方式： 
+						</label>
+						<div class="col-sm-8">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox1" name="is_sys_msg" value="1" checked> 系统提示
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox2" name="is_email_msg"  value="1"> 邮件
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox3" name="is_phone_msg"  value="1"> 短信
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox3" name="is_wechat_msg" value="1"> 企业微信
+							</label>
+						</div>
+					</div>
+					
+					<div class="form-group clearfix" id="email_single" style="display:none;">
+						<label class="col-sm-3 control-label" >
+					
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text"   name="email_address" placeholder="请输入邮箱地址" />
+						</div>
+					</div>
+					
+					<div class="form-group clearfix" id="phone_single" style="display:none;">
+						<label class="col-sm-3 control-label" >
+					
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text" id="phone_number"  name="phone_number" placeholder="请输入手机号码" />	
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">			
+				<input type="button" class="btn btn-primary" name="save" value="确定" onclick="addHeatMedia();"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 表格2 数据模板  -->
+<textarea id="sectionSet_template" style="display:none">
+	{for hit in dataList}
+		<tr class="item" id="@{hit.id}" sort="@{hit.sort}">
+			<td><input type="checkbox" class="search_check" value="@{hit.id}" onclick="checkFlag();"/></td>
+			<td>
+				@{index++}
+			</td>
+			<td>
+				@{hit.name}
+			</td>
+			<td>
+				@{hit.org_name}
+			</td>
+			<td>
+				{if hit.type == 0}
+					监测
+				{else}
+					专题
+				{/if}
+			</td>
+			<td title="@{hit.souces}">
+				{if !(hit.souces) || hit.souces=='' }
+					--
+				{else}
+					@{hit.souces}
+				{/if}
+			</td>
+		
+			{if hit.show_type == 0}
+			<td>首页</td>
+			{else}
+			<td>大屏幕</td>
+			{/if}
+
+			<td title="@{hit.created_at}">
+				@{hit.created_at}
+			</td>
+			<td>
+				<div class="btn-group btn-group-xs">
+					<button type="button" onclick="toEditSectionSet(@{hit.id})" class="btn btn-default">编辑</button>
+					<button type="button" onclick="deleteSectionSet(@{hit.id})" class="btn btn-default">删除</button>
+				</div>
+					
+			</td>
+			<td style="display: none;" id="sortChange">@{hit.sort}</td>
+			<td style="display: none;" id="sortId">@{hit.id}</td>
+		</tr>
+	{/for}
+</textarea>
+
+</body>
+</html>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/date.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.js"></script>
+<script src="js/bootstrap-table-zh-CN.js"></script>
+<script src="js/bootstrapValidator.min.js"></script> <!-- 表单验证 -->
+<script src="js/sweetalert.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/jquery.serialize-object.min.js"></script> <!-- 序列化字符串转换为对象 -->
+<script src="js/bootstrap-switch.min.js"></script>
+<!-- 数据模板加载 -->
+<script src="js/trimpath-template.js"></script>
+<script src="js/jquery.mCustomScrollbar.js"></script>
+
+<script>
+	//序列号 （多选框没选中 其value设定为0）
+	$.fn.ghostsf_serialize = function () {
+	    var a = this.serializeArray();
+	    var $radio = $('input[type=radio],input[type=checkbox]', this);
+	    var temp = {};
+	    $.each($radio, function () {
+	        if (!temp.hasOwnProperty(this.name)) {
+	            if ($("input[name='" + this.name + "']:checked").length == 0) {
+	                temp[this.name] = "";
+	                a.push({name: this.name, value: '0'});
+	            }
+	        }
+	    });
+	    return jQuery.param(a);
+	};
+
+	$(function(){
+
+		//表格初始化
+		LM_table = new LabelManageTB();
+	    LM_table.Init();
+	    
+		//添加数据到表格
+	    LM_table.setData(list);
+
+	   
+	    //加载数据 菊花
+	    var loadObj = $("#test");
+	    showLoad(loadObj);
+	    //hideLoad(loadObj);
+	    
+
+	    //表格2 添加数据
+	    var yhtml = TrimPath.processDOMTemplate("sectionSet_template", {"dataList":dataList,index:1});
+		$("#sectionSet_content").html(yhtml);
+
+
+		//表单验证初始化
+		formValidator();
+
+		//清空表单数据 添加 模态框隐藏 
+		$('#heatSingleAddWindow').on('hidden.bs.modal', function () {
+			
+			//重置表单
+		    $('#heatAddWindowForm')[0].reset(); 
+		    $("#heatAddWindowForm #email_single").hide();
+		    $("#heatAddWindowForm #phone_single").hide();
+		    
+		    //Modal验证销毁重构   modal隐藏时销毁验证再重新加载验证
+		    $("#heatAddWindowForm").data('bootstrapValidator').destroy();
+	        $('#heatAddWindowForm').data('bootstrapValidator', null);
+	        formValidator();		    
+		})
+
+
+		//滚动条
+		$(".scroll").mCustomScrollbar({
+			theme:"dark",
+			autoHideScrollbar:true
+		});
+
+		//函数在date.js中
+		console.log(getDateTime(-3));// -3表示几天前时间段  3表示几天后的时间段
+		console.log(getDateTimeStamp('2018-01-25 14:05:00'));//转为毫秒
+		console.log(getDateDiff(getDateTimeStamp('2018-01-25 14:05:00')));//几分钟前
+		console.log(getDateDiff(getDateTimeStamp('2018-01-24 14:05:00')));//几天前
+
+	})
+	
+
+	//表格数据
+	var list=[
+		{
+			"primary_type": 0,
+			"keywords": "11",
+			"monitor_id": 101795,
+			"name": "测试66",
+			"created_at": "2017-12-20 15:14:55",
+			"sort": 1,
+			"id": 75,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"primary_type": 3,
+			"keywords": "贪污|受贿|监察",
+			"monitor_id": 101830,
+			"name": "检察院",
+			"created_at": "2018-01-03 10:47:27",
+			"sort": 4,
+			"id": 78,
+			"type": 5,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"primary_type": 0,
+			"keywords": "测试",
+			"monitor_id": 101902,
+			"name": "测试1",
+			"created_at": "2018-01-23 13:16:18",
+			"sort": 1,
+			"id": 84,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"primary_type": 0,
+			"keywords": "测试",
+			"monitor_id": 101903,
+			"name": "测试2",
+			"created_at": "2018-01-23 13:16:29",
+			"sort": 1,
+			"id": 85,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "11",
+			"monitor_id": 101914,
+			"name": "测试3",
+			"created_at": "2018-01-24 11:16:07",
+			"id": 96,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101915,
+			"name": "测试4",
+			"created_at": "2018-01-24 11:16:27",
+			"id": 97,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101917,
+			"name": "测试6",
+			"created_at": "2018-01-24 11:17:13",
+			"id": 99,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101920,
+			"name": "测试8",
+			"created_at": "2018-01-24 13:50:43",
+			"id": 102,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101921,
+			"name": "测试9",
+			"created_at": "2018-01-24 13:51:02",
+			"id": 103,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101922,
+			"name": "测试10",
+			"created_at": "2018-01-24 13:51:14",
+			"id": 104,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}, {
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试11",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 105,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试12",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 106,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试13",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 107,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试14",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 108,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试15",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 109,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试16",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 110,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		},{
+			"keywords": "测试",
+			"monitor_id": 101924,
+			"name": "测试17",
+			"created_at": "2018-01-24 13:54:00",
+			"id": 111,
+			"type": 4,
+			"userid": 54,
+			"orgid": 69,
+			"status": 1
+		}];
+
+
+
+	//表格数据2
+	var dataList=[
+		{
+			"subject_id": 100218,
+			"souces": "微博",
+			"has_site": 1,
+			"created_at": "2017-07-06 14:44:41",
+			"sort": 1,
+			"type": 0,
+			"is_top": 1,
+			"update_date": "2018-01-08 20:20:28",
+			"organizationid": 69,
+			"show_type": 0,
+			"name": "微信热点",
+			"id": 4,
+			"org_name": "广州天河区2",
+			"show_section": 1
+		}, {
+			"subject_id": 100218,
+			"has_site": 1,
+			"created_at": "2017-08-19 14:26:19",
+			"sort": 2,
+			"type": 0,
+			"update_date": "2018-01-08 20:14:44",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "中央新闻单位",
+			"id": 34,
+			"org_name": "广州天河区2",
+			"show_section": 1
+		}, {
+			"subject_id": 100218,
+			"organizationid": 69,
+			"show_type": 0,
+			"has_site": 0,
+			"name": "微博热点",
+			"created_at": "2017-07-22 14:03:08",
+			"sort": 3,
+			"id": 32,
+			"type": 1,
+			"org_name": "广州天河区2",
+			"update_date": "2018-01-08 16:59:03"
+		}, {
+			"subject_id": 100218,
+			"souces": "新民网,看看新闻,财新网,东方网,澎湃网",
+			"has_site": 1,
+			"created_at": "2017-08-20 14:04:51",
+			"sort": 4,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:03",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "地方新闻网",
+			"id": 37,
+			"org_name": "广州天河区2",
+			"show_section": 2
+		}, {
+			"subject_id": 100218,
+			"has_site": 0,
+			"created_at": "2017-07-22 14:02:56",
+			"sort": 5,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:03",
+			"organizationid": 69,
+			"show_type": 0,
+			"name": "重点党媒热点",
+			"id": 31,
+			"org_name": "广州天河区2",
+			"show_section": 1
+		}, {
+			"subject_id": 100218,
+			"souces": "百度新闻,搜狐,凤凰网,腾讯网",
+			"has_site": 1,
+			"created_at": "2017-08-20 14:07:20",
+			"sort": 6,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:03",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "门户网站",
+			"id": 38,
+			"org_name": "广州天河区2",
+			"show_section": 2
+		}, {
+			"subject_id": 100218,
+			"souces": "今日头条,人民日报,微博,环球网",
+			"has_site": 1,
+			"created_at": "2017-08-19 14:34:40",
+			"sort": 7,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:03",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "中央媒体",
+			"id": 35,
+			"org_name": "广州天河区2",
+			"show_section": 3
+		}, {
+			"subject_id": 100218,
+			"souces": "人民网,央广网,央视网,中国日报",
+			"has_site": 1,
+			"created_at": "2017-08-20 14:01:25",
+			"sort": 8,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:04",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "中央新闻网站",
+			"id": 36,
+			"org_name": "广州天河区2",
+			"show_section": 2
+		}, {
+			"subject_id": 100218,
+			"souces": "爱卡汽车,西祠胡同,搜房天下,红豆社区",
+			"has_site": 1,
+			"created_at": "2017-08-20 14:09:14",
+			"sort": 9,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:04",
+			"organizationid": 69,
+			"show_type": 1,
+			"name": "论坛贴吧",
+			"id": 39,
+			"org_name": "广州天河区2",
+			"show_section": 2
+		}, {
+			"subject_id": 101720,
+			"souces": "人民日报",
+			"has_site": 1,
+			"created_at": "2017-12-01 16:26:26",
+			"sort": 10,
+			"type": 0,
+			"update_date": "2018-01-08 16:59:04",
+			"organizationid": 121,
+			"show_type": 1,
+			"name": "传统媒体",
+			"id": 43,
+			"org_name": "AMS测试",
+			"show_section": 1
+		}];
+
+
+
+
+	//定义表格对象
+	var LabelManageTB = function () { 
+	    var _LabelManageTB = new Object();
+	    _LabelManageTB.Init = function () {
+	        $('#LabelManageTB').bootstrapTable({
+	            toolbar: '',                //工具按钮用哪个容器
+	            striped: true,                      //是否显示行间隔色
+	            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+	            pagination: true,                   //是否显示分页（*）
+	            sortable: false,                     //是否启用排序
+	            sortOrder: "asc",                   //排序方式
+	            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+	            strictSearch: true,
+	            showColumns: true,                  //是否显示所有的列
+	            showRefresh: true,                  //是否显示刷新按钮
+	            minimumCountColumns: 2,             //最少允许的列数
+	            clickToSelect: false,                //是否启用点击选中行
+	            height: 546,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+	            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+	            showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
+	            cardView: false,                    //是否显示详细视图
+	            detailView: false,                   //是否显示父子表
+	            columns: [{
+	            	width:"5%",
+	            	checkbox:true
+	            },{
+	                title: '序号',
+	                align: "center",
+	                width:"5%",
+	                formatter: function (value, row, index) {
+	                	var html='';
+	                	var num=index+1;
+	                	return '<span id="'+row.id+'">'+num+'</span>';
+					},
+	            },{
+	                field: 'name',
+	                title: '标签名称',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'type_name',
+	                title: '标签类型',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'keywords',
+	                title: '关键词',
+	                width: "15%",
+	                align: "center",
+	                formatter: function (value, row, index) {
+	                	var _html = "";
+	                	_html = value.length > 32 ? (value.substring(0,32)+"...") : value;
+	                	return "<span title='value'>"+ _html +"</span>";
+	                }
+	            },{
+	                field: 'org_name',
+	                title: '所属组织',
+	                width: "10%",
+	                align: "center",
+	            },{
+	                field: 'created_at',
+	                title: '创建时间',
+	                width: "15%",
+	                align: "center",
+	                visible: false,
+	            },{
+	                field: 'update_at',
+	                title: '更新时间',
+	                width: "15%",
+	                align: "center",
+	                visible: false,
+	            },{
+	            	field:"id",
+	            	title:"操作"	,
+	            	width: "15%",
+	            	align: "center",
+	            	formatter: function (value,row) {
+	            		var _html ='<div class="btn-group btn-group-xs">' +
+					            		'<button type="button" class="btn btn-default" onclick="toLabelEdit('+ "'find'" +','+ row.id +')" >查看</button>' +
+					            		'<button type="button" class="btn btn-default" onclick="toLabelEdit('+ "'edit'" +','+ row.id +')" >编辑</button>' +
+					            		'<button type="button" class="btn btn-default" onclick="upLabelDel('+ row.id +')" >删除</button>' +
+							       '</div>';
+						return _html;
+					}
+	            }],
+	            onCheck: function(row, $element){
+	            	$element.val(row.id);
+	            },
+	            onColumnSwitch: function(field, checked){
+	            	$('#LabelManageTB').parents(".bootstrap-table").eq(0).find("input[data-field='org_name']").attr("disabled","disabled");
+	            }
+	        });
+	        
+	    };
+	    
+	    _LabelManageTB.setData = function(data){
+	    	$('#LabelManageTB').bootstrapTable("load",data);
+	    }
+
+	    return _LabelManageTB;
+	};
+
+	//批量删除
+	function delBatch(){
+		var id = '';	
+		$("#LabelManageTB input[name='btSelectItem']").each(function(index,item){
+			if($(item).is(":checked")){
+				id += ',' + $(item).parent().next().children().eq(0).attr('id');
+			}
+		});
+		
+		if(id){	
+			id = id.substr(1);		
+			console.log(id);
+			//这里拿到是所有选中的id字符串集合
+		}else{
+			swal({title: "请选择删除项",timer:2000,type:'warning',showConfirmButton:false});
+		}
+	}
+
+	//查看 或 编辑
+	function toLabelEdit(word,id){
+		console.log(word);
+		console.log(id);
+	}
+	//删除单个
+	function upLabelDel(id){
+		console.log(id);
+		swal({
+			title: "提示",
+			text: "您确定要删除标签吗？",
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: "取消",
+			confirmButtonText: "确定",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm:true
+		},function(isConfirm){
+			if (isConfirm) {
+				//回调函数 点击确定执行代码
+				swal({title: "操作成功",timer:2000,type:'success',showConfirmButton:false});
+			}
+		});		
+	}
+
+
+
+
+	//表格2 全选
+	function checkAll(){
+		if($("#label_search_all_check").is(":checked")){
+			$(".search_check").prop("checked",true);
+		}else{
+			$(".search_check").prop("checked",false);
+		}
+	}
+
+	//表格2 单个多选框点击(只有全部选中,多选框才会选中;只要有一个不选中,多选框状态为不选中;)
+	function checkFlag(){
+		var check_flag = true;
+		$(".search_check").each(function(index,item){
+			if(!$(item).is(":checked")){
+				check_flag = false;
+			}
+		});
+		if(check_flag){			
+			$("#label_search_all_check").prop("checked",true);
+		}else{
+			$("#label_search_all_check").prop("checked",false);
+		}
+	}
+	//表格2 批量删除
+	function delBatch2(){
+		var id='';
+		$(".table_center .search_check").each(function(index,value){
+			if($(value).is(":checked")){
+				id+=','+$(value).val();
+			}
+		})		
+		if(id){
+			id=id.substr(1);
+			console.log(id);
+		}else{
+			swal({title: "请选择删除项",timer:2000,type:'warning',showConfirmButton:false});
+		}
+	}
+	
+
+
+
+	//点击按钮 弹出模态框
+	function showContainer(){
+		$("#heatSingleAddWindow").modal("show");
+		$("#heatSingleAddWindow #email_single").hide();
+		$("#heatSingleAddWindow #phone_single").hide();
+
+		//switch开关初始化 和点击事件
+		$('#heatSingleAddWindow #mySwitch1 input').bootstrapSwitch();
+		$('#heatSingleAddWindow #mySwitch1 input').on('switchChange.bootstrapSwitch', function (event,state) { 
+	       if(state=='1'){
+	    	   $("#heatSingleAddWindow [name='is_warning']").val(1);
+	    	   $("#heatSingleAddWindow [name='is_sys_msg']").prop('checked',true);
+	    	   
+	       }else{
+	    	   $("#heatSingleAddWindow [name='is_warning']").val(0);
+	    	   $("#heatSingleAddWindow [name='is_sys_msg']").prop('checked',false);
+
+	       }     
+	    }); 
+
+		$("#heatSingleAddWindow [name='is_email_msg']").click(function(){
+			if( Number($(this).prop('checked'))=='1' ){
+				$("#heatAddWindowForm #email_single").show();
+			}else{
+				$("#heatSingleAddWindow [name='email_address']").val('');
+				$("#heatAddWindowForm").data('bootstrapValidator').destroy();
+		        $('#heatAddWindowForm').data('bootstrapValidator', null);
+		        formValidator();						
+				$("#heatAddWindowForm #email_single").hide();
+			} 
+		})
+		
+		
+		$("#heatSingleAddWindow [name='is_phone_msg']").click(function(){
+			if( Number($(this).prop('checked'))=='1' ){
+				$("#heatAddWindowForm #phone_single").show();
+			}else{
+				$("#heatSingleAddWindow [name='phone_number']").val('');
+				$("#heatAddWindowForm").data('bootstrapValidator').destroy();
+		        $('#heatAddWindowForm').data('bootstrapValidator', null);
+		        formValidator();							
+				$("#heatAddWindowForm #phone_single").hide();	
+			} 
+		})
+
+		//重置表单
+		$('#heatAddWindowForm')[0].reset();
+
+	}
+
+	//点击确定 表单验证
+	function addHeatMedia(){
+		if($("#heatAddWindowForm [name='is_email_msg']").prop('checked')=='1' || $("#heatAddWindowForm [name='is_phone_msg']").prop('checked')=='1'){
+			$('#heatAddWindowForm').data('bootstrapValidator').validate();
+		
+		    if(!$('#heatAddWindowForm').data('bootstrapValidator').isValid()){  
+		         return ;
+		    }
+	
+		    //如果验证通过    
+		    //$("#heatAddWindowForm").serialize() 序列化字符串
+		    //$("#heatAddWindowForm").serializeObject() 将序列化字符串转换为对象
+		    var formObj=$("#heatAddWindowForm");
+		   	var parameter = formObj.ghostsf_serialize();  //如果表单元素value为空，默认为0;
+    		parameter = decodeURIComponent(parameter,true); //将文字转换编码
+    		console.log(parameter);	
+    		swal({title: "操作成功",timer:2000,type:'success',showConfirmButton:false});
+    		$("#heatSingleAddWindow").modal("hide");
+		}else{
+			//电话邮箱 input 都没有出现 
+			var formObj=$("#heatAddWindowForm");		 
+			var parameter = formObj.ghostsf_serialize(); 
+    		parameter = decodeURIComponent(parameter,true);
+    		console.log(parameter);
+    		swal({title: "操作成功",timer:2000,type:'success',showConfirmButton:false});
+    		$("#heatSingleAddWindow").modal("hide");
+	 	}
+	}
+
+
+	//form验证规则
+	function formValidator(){
+	    $('#heatAddWindowForm').bootstrapValidator({
+	        message: 'This value is not valid',
+	        feedbackIcons: {
+		        valid: 'glyphicon glyphicon-ok',
+		        invalid: 'glyphicon glyphicon-remove',
+		        validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	            //邮箱
+	        	email_address: {   //这里email_address表示表单元素的name,与其绑定
+	                validators: {
+	                    notEmpty: {
+	                        message: 'email不能为空'
+	                    },
+	                    emailAddress: {   
+	                        message: '请输入正确的邮件地址如：123@qq.com'
+	                    }
+	                }
+	            },
+	            //电话
+	            phone_number: {    //这里phone_number表示表单元素的name,与其绑定
+	                validators: {
+	                    notEmpty: {
+	                        message: '手机号不能为空'
+	                    },
+	                    regexp: {
+	                        regexp: "^(1[0-9]{10})?$",
+	                        message: '手机号码格式错误'
+	                    }
+	                }	
+	           }
+	            
+	        }
+	    })
+	}
+
+
+
+
+
+	
+
+
+
+
+
+//ajax 加载显示
+/*var loadObj = $("#LabelManageTB");
+$.ajax({
+	url : "../getSectionSetList/vms2.SectionSet.do",
+	type : "post",
+	data : params,
+	dataType:"JSON",
+	success : function(result) {
+	},
+	error : function() {
+		hideLoad(loadObj);
+	},
+	beforeSend : function(xhr) {
+		showLoad(loadObj);
+	},
+	complete : function(XHR, TS) {
+		hideLoad(loadObj);
+	}
+});*/
+
+
+/*each 循环*/
+</script>
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+<pre name="code" class="html"><!DOCTYPE html>  
+<head>  
+    <meta charset="utf-8">  
+    <title>ECharts</title>  
+</head>  
+<body>  
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->  
+    <div id="main" style="height:400px"></div>  
+    <!-- ECharts单文件引入 -->  
+      <script src="js/echarts.js"></script>  
+    <script type="text/javascript">  
+        // 路径配置  
+        require.config({  
+            paths: {  
+                echarts: 'js/ECharts/dist'  
+            }  
+        });  
+          
+        // 使用  
+        require(  
+            [  
+                'echarts',  
+                'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载  
+            ],  
+            function (ec) {  
+                // 基于准备好的dom，初始化echarts图表  
+                var myChart = ec.init(document.getElementById('main'));   
+               var ecConfig = require('echarts/config');    
+              myChart.on(ecConfig.EVENT.CLICK, eConsole);   
+                var option = {  
+                            
+                        tooltip : {  
+                            trigger: 'axis'  
+                              
+                        },  
+                        legend: {  
+                            x:'right',  
+                              
+                            data:['人数']  
+                        },  
+                         
+                        calculable : true,  
+                        xAxis : [  
+                            {  
+                                type : 'category',  
+                                boundaryGap : false,  
+                                data : [10,20,30,40,50,60,70,80,90,100]  
+                            }  
+                        ],  
+                        yAxis : [  
+                            {  
+                                type : 'value',  
+                                axisLabel : {  
+                                    formatter: '{value} 人'  
+                                }   
+                            }  
+                        ],  
+                        series : [  
+                              
+                            {  
+                               <span style="color:#ff0000;"><strong> clickable : true,</strong></span>  
+                                name:'人数',  
+                                type:'line',  
+                                data:[1,2,3,4,5,6,7,8,9,0],  
+                            }  
+                             
+                        ]  
+                    };  
+          
+                // 为echarts对象加载数据   
+                myChart.setOption(option);   
+            }  
+        );  
+       function eConsole(param) {      
+     if (typeof param.seriesIndex == 'undefined') {      
+           return;      
+         }      
+        if (param.type == 'click') {      
+          alert(param.data+1);      
+            }      
+        }  
+    </script>  
+</body>  

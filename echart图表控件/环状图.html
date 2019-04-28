@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="cake_one" style="width:400px;height:300px;"></div>
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+	$(function(){
+		
+		var result = {
+			data:[{value:24,name: '正面'}, {value: 12,name: '中性'}, {value: 6,name: '负面'}],
+			color:['#53e06d','#2c7dfa','#e32063']
+		}
+
+		echartCake(result,'cake_one');
+		
+	})
+
+	function echartCake(result,id){
+		var arr=[];
+		for(var i=0;i<result.data.length;i++){
+			arr.push(result.data[i].name);
+		}
+		var myChart1 = echarts.init(document.getElementById(id));
+		option1 = {
+		    backgroundColor: '#fff',
+		    title: {
+		        text: 30 + '%',
+		        subtext: '正',
+		        x: 'center',
+		        y: '32%', 
+		        textStyle: {
+		            fontWeight: 'bold',
+		            fontSize: 14
+		        },
+		        subtextStyle:{
+		        	fontWeight: 'normal',
+		            fontSize: 14,
+		            color:'#000'
+		        }
+		    },
+		    legend: {
+		        bottom:4,
+		        data:arr,
+		        textStyle: {
+		            color: '#000',
+		            fontSize:14
+		        },
+		        "icon": "circle"
+		    },
+		    color:result.color,
+		    tooltip: {
+		        show: true,
+		        trigger: 'item',
+		        formatter: "{b}: {c} ({d}%)"
+		    },
+		    series: [{
+		        type: 'pie',
+		        selectedMode: 'single',
+		        radius: ['35%', '70%'],
+		        center:['50%','40%'],
+		        label: {
+		            normal: {
+		                position: 'inner',
+		                formatter: '{d}%',
+		                show:false,
+		                textStyle: {
+		                    color: '#fff',
+		                    fontWeight: 'bold',
+		                    fontSize: 14
+		                }
+		            }
+		        },
+		        labelLine: {
+		            normal: {
+		                show: false
+		            }
+		        },
+		        data: result.data
+		    }]
+		};
+		myChart1.setOption(option1);
+	}
+</script>

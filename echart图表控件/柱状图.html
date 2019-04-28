@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="bar_one" style="width:800px;height:600px;"></div>
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+	$(function(){
+		
+
+		
+
+		var result={
+			"name":['请问企鹅去企鹅企鹅','为请问企鹅','额企鹅去问问我','阿瑟大','飞哥飞哥飞哥'],
+			"counts":['12','23','25','34','26'],
+			"length":4
+		}
+
+
+		echartBar(result,'bar_one');
+
+
+
+		
+	})
+
+
+	function echartBar(result,id){
+		var newNames=[];
+		for(var i=0;i<result.name.length;i++){
+			if (result.name[i].length < 5) {			
+				newNames.push(result.name[i]);
+			} else {			
+				newNames.push(result.name[i].substr(0,result.length) + '...');
+			}
+		}
+
+		//柱状图
+		var myChart1 = echarts.init(document.getElementById(id));
+		myChart1.on('click', function (param) {
+			console.log(param);
+		});
+		
+		option1 = {
+		    color: ['#448aff'],
+		    tooltip : {
+		        trigger: 'axis',
+		        axisPointer : {            
+		            type : 'shadow'     
+		        },
+		        formatter: function (obj) {
+	                var i=obj[0].dataIndex;
+	                var value=obj[0].value;
+	                return '<span style="font-size:2vh;">'+result.name[i]+':</span><span style="font-size:2vh;">'+value+'</span>'; 
+	            }
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        y2:'25',
+	            y:'15',
+		        containLabel: true
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            data : newNames,
+		            axisTick: {
+		                show: false
+		            },
+		            //轴线
+		            axisLine:{
+	                    lineStyle:{
+	                        color:'#cdd8ea',
+	                        width:1,//这里是为了突出显示加上的
+	                    }
+	                },
+	                //字体
+	                axisLabel: {
+	                    show: true,
+	                    textStyle: {
+	                        color: '#555',
+	                        fontSize:14
+	                    }
+	                }
+		            
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value',
+		            axisTick: {
+			            show: false
+			        },
+			        //轴线
+		            axisLine:{
+	                    lineStyle:{
+	                        color:'#fff',
+	                        width:0,//这里是为了突出显示加上的
+	                    }
+	                },
+	                //字体
+	                axisLabel: {
+	                    show: true,
+	                    textStyle: {
+	                        color: '#555',
+	                        fontSize:14
+	                    }
+	                }
+		        }
+		        
+		    ],
+		    series : [
+		        {
+		            name:'',
+		            type:'bar',
+		            barWidth: '60%',
+		            data:result.counts,
+		            itemStyle: {
+		              normal: {
+		                //颜色渐变
+		                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+		                  offset: 0,
+		                  color: '#f00'
+		                }, {
+		                  offset: 1,
+		                  color: '#5DB6F3'
+		                }])
+		              }
+		            }
+		        }
+		    ]
+		};
+		myChart1.setOption(option1);
+	}
+
+
+</script>

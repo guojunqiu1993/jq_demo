@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/pullToRefresh.css">
+	<style>
+		*{padding:0px;margin:0px;}
+		.top{
+			position: absolute;
+			left: 0px;
+			top:0px;
+			height:50px;
+			line-height: 50px;
+			text-align: center;
+			background: red;
+			width: 100%;
+		}
+		.bottom{
+			position: absolute;
+			left: 0px;
+			bottom:0px;
+			height:50px;
+			line-height: 50px;
+			text-align: center;
+			background: red;
+			width: 100%;
+		}
+		.mescroll{
+			position: absolute;
+			left:0px;
+			top: 50px;
+			bottom: 50px;
+			overflow: auto;
+			width: 100%;
+		}
+		.mescroll p{
+			height:40px;
+			line-height: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class='top'>我是头部</div>
+	<div id="mescroll" class="mescroll" >
+		 <div class='mescroll-content'>
+		 	<p>文字1</p>
+			<p>文字2</p>
+			<p>文字3</p>
+			<p>文字4</p>
+			<p>文字5</p>
+			<p>文字6</p>
+			<p>文字7</p>
+			<p>文字8</p>
+			<p>文字9</p>
+			<p>文字10</p> 
+			<p>文字11</p>
+			<p>文字12</p>
+			<p>文字13</p>
+			<p>文字14</p>
+			<p>文字15</p>
+			<p>文字16</p> 
+		 </div>
+	</div>	
+
+	<div class="bottom">我是底部</div>
+</body>
+</html>
+<script src="js/iscroll.js"></script>
+<script src="js/jquery-1.8.0.min.js"></script>
+<script src="js/pullToRefresh.js"></script>
+<script>
+$(function(){
+	refresher.init({
+		id:"mescroll",
+		pullDownAction:Refresh,                                                            
+		pullUpAction:Load 																			
+	});
+																																								
+	function Refresh() {
+		console.log(1);
+		$(".mescroll-content").prepend('<p>下拉加载的</p>');
+		mescroll.refresh();	
+	}
+
+	function Load(){
+		console.log(2);
+		$(".mescroll-content").append('<p>上拉加载的</p>');
+		mescroll.refresh();	
+	}
+
+
+})
+</script>

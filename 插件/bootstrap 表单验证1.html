@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Carousel Template for Bootstrap</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+ 
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+
+                    <!-- form start -->
+                    <form class="form-horizontal" id="saveadmin_form"
+                        name="form-horizontal">
+                        <input type="hidden" id="adminid" />
+                        <div class="box-body">
+                            <dl class="dl-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <dt>管理员名</dt>
+                                        <dd>
+                                            <lable id="edit_show_adminname"></lable>
+                                            <input type="text" class="form-control" id="edit_adminName"
+                                                name="edit_adminName" data-bv-notempty="true"
+                                                name="edit_adminName">
+                                        </dd>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="div_password">
+                                    <div class="col-sm-10">
+                                        <dt>密码</dt>
+                                        <dd>
+                                        <input type="text" class="form-control" name="edit_passwd" id="edit_passwd">
+                                            </dd>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="div_password1">
+                                    <div class="col-sm-10">
+                                        <dt>确认密码</dt>
+                                        <dd>
+                                        <input type="text" class="form-control" name="edit_passwd1"
+                                            id="edit_passwd1">
+                                            </dd>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <dt>显示名</dt>
+                                        <dd>
+                                        <input type="text" name="edit_displayName"
+                                            class="form-control" id="edit_displayName">
+                                            </dd>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <dt>邮箱</dt>
+                                        <dd>
+                                        <input type="text" data-bv-notempty="true" name="edit_Mail"
+                                            class="form-control" id="edit_Mail">
+                                            </dd>
+                                    </div>
+                                </div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <dt>备注</dt>
+                                <dd>
+                                <textarea class="form-control" name="edit_desc" rows="3"
+                                    id="edit_desc"></textarea>
+                                    </dd>
+                            </div>
+                        </div>
+                                
+                            </dl>
+                        </div>
+            <!-- /.box-body -->
+            <div class="modal-footer">
+                <!-- <button type="button" onclick="saveAdmin()" class="btn btn-default">保存</button> -->
+                <button onclick="saveAdmin()" type="button" class="btn btn-success" >
+                    <i class="fa fa-check"></i> 保存
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <i class="fa fa-times"></i> 关闭
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <button class="show"> 显示表单</button>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+
+<script type='text/javascript'>
+
+
+ 
+
+    $(function(){
+
+        $(".show").click(function(){
+          $("#editModal").modal("show");
+        })
+        //初始化表单验证
+         formValidator();
+
+
+    
+
+       
+        //Modal验证销毁重构   modal隐藏时销毁验证再重新加载验证
+        $('#editModal').on('hidden.bs.modal', function() {
+            $('#saveadmin_form')[0].reset(); 
+            $("#saveadmin_form").data('bootstrapValidator').destroy();
+            $('#saveadmin_form').data('bootstrapValidator', null);
+            formValidator();
+        });
+        
+        
+
+
+
+        
+
+
+    })
+
+
+
+
+
+        //保存
+        function saveAdmin(){
+           
+            //开启验证
+            $('#saveadmin_form').data('bootstrapValidator').validate();  
+            if(!$('#saveadmin_form').data('bootstrapValidator').isValid()){  
+                 return ;  
+            } 
+            //如果验证通过
+            alert(1);
+            
+        }
+
+
+
+        //form验证规则
+        function formValidator(){
+            $('#saveadmin_form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+                        },
+                fields: {
+                    //管理员名
+                    edit_adminName: {
+                        message: '管理员名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '管理员名不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 64,
+                                message: '管理员名长度必须在6到64位之间'
+                            }
+                        }
+                    },
+                  //密码
+                    edit_passwd: {
+                        message: '密码验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '密码不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 64,
+                                message: '密码长度在5到64之间'
+                            }
+                        }
+                    },
+                  //密码确认
+                    edit_passwd1: {
+                        message: '密码确认验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '密码确认不能为空'
+                            },
+                            identical: {
+                                field: 'edit_passwd',
+                                message: '两次密码不相同'
+                            }
+                        }
+                    },
+                    //显示名
+                    edit_displayName: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '显示名不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 128,
+                                message: '显示名长度必须在6到18位之间'
+                            }
+                        }
+                    },
+                    //邮箱
+                    edit_Mail: {
+                        validators: {
+                            notEmpty: {
+                                message: 'email不能为空'
+                            },
+                            emailAddress: {
+                                message: '请输入正确的邮件地址如：123@qq.com'
+                            }
+                        }
+                    },
+                    //备注
+                    edit_desc: {
+                        message: '备注验证失败',
+                        validators: {
+                            stringLength: {
+                                max: 256,
+                                message: '备注长度长度必须小于256'
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+    
+
+</script>
+</body>
+</html>

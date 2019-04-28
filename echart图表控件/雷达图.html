@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="radar_one" style="width:400px;height:360px;"></div>
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+	$(function(){
+
+		var result={
+			data:[
+					{'name':'正面','value':[63,85,45,36,17]},
+					{'name':'中性','value':[93,45,75,46,15]},
+					{'name':'负面','value':[75,95,35,26,35]}
+				 ],
+			color:['#24d524','#607d8b','#f44336'],
+			item: [
+		           { name: '微信',max:93},
+		           { name: '新闻客户端',max:95},
+		           { name: '传统媒体',max:75},
+		           { name: '网站',max:46},
+		           { name: '微博',max:35}
+		        ]
+		}
+
+		echartRadar(result,'radar_one');
+		
+
+		
+	})
+
+	function echartRadar(result,id){
+		var arr=[];
+		for(var i=0;i<result.data.length;i++){
+			arr.push(result.data[i].name);
+		}
+
+		var myChart1 = echarts.init(document.getElementById(id));
+		option1 = {
+		    title: {
+		        text: ''
+		    },
+		    tooltip: {},
+		    legend: {
+		        data: arr,
+		        bottom:0,
+		        "icon": "circle",
+		        textStyle: {
+		            color: '#000',
+		            fontSize:14
+		        },
+		    },
+		    
+		    color:result["color"],
+		    radar: {
+		    	name:{
+		    		show:true,
+		    		formatter:null,
+		    		textStyle:{
+		    			//设置颜色
+		    			color:'#000',
+		    			fontSize:14
+		    		}
+		    	},
+		    	radius: 65,
+		        indicator: result["item"]
+		    },
+		    series: [{
+		        name: '',
+		        type: 'radar',
+		        data : result.data
+		    }]
+		};
+		myChart1.setOption(option1);
+	}
+</script>

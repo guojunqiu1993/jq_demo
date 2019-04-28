@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>JS日期选择插件 WdatePicker</title>
+
+<style>
+body{margin:0; padding:0;}
+.divs{margin:10px;}
+/* ul#wimoban_nav{padding-left:50px; margin-bottom:10px; border-bottom:2px solid #ccc; overflow:hidden; _zoom:1;}
+ul#wimoban_nav li{float:left; display:inline; margin:10px;}
+ul#wimoban_nav li a{display:block; font-size:16px;}
+ul#wimoban_nav li a,#wimoban_p,#wimoban_p a{color:#000; font-family:"微软雅黑";}
+ul#wimoban_nav li a:hover,#wimoban_p a:hover{color:red;}
+#wimoban_p{text-align:center; font-size:14px; clear:both;} */
+</style>
+</head>
+<body  >
+
+
+<!-- 代码开始  这里的开始时间 和 结束时间必须初始化，不然会有bug -->
+<div class="divs">
+	<span>开始时间：</span>
+	<input name="startTime" id="startDate" class="Wdate form-control cssInput" onfocus="startTimeFocus();">
+</div>
+<div class="divs">
+	<span>结束时间：</span> 
+	<input name="endTime" id="endDate" class="Wdate form-control cssInput" onfocus="endTimeFocus();">
+</div>
+<!-- 代码结束 -->
+
+
+<!-- 只能选择今天和以前的时间段  dateFmt修改时间 -->
+<div class="divs">
+	 <input id="d421" class="Wdate" type="text" onfocus="WdatePicker({maxDate:'%y-%M-%d',dateFmt : 'yyyy-MM-dd HH:mm'})"/>
+</div>
+
+
+</body>
+</html>
+<script src="jquery-1.11.1.js"></script>
+<script src="date.js"></script>
+<script src="My97DatePicker/WdatePicker.js"></script>
+<script>
+	$(function(){
+		//时间初始化 （对于开始时间、结束时间 一定要给初始值,不然会存在bug）
+		initSearchTimeInput();
+	})
+
+	//添加自定义时间
+	//初始化日期，带上hh:mm 并且结束时间限定时间为当天
+	function initSearchTimeInput(){		
+		$("#startDate").val(getDateTime(-7));
+		$("#endDate").val(getDateTime(0));
+	}
+
+	//开始时间
+	function startTimeFocus(){
+		var endDate = $dp.$('endDate');
+		WdatePicker({
+			minDate : '%y-{%M-3}-%d 00:00:00',
+			dateFmt : 'yyyy-MM-dd HH:mm',
+			/*skin:'whyGreen',*/
+			onpicked : function() {
+				//endDate.focus();
+				associateMoreSearchTime();
+				//doPublicSearch(true, true);
+			},
+			maxDate : '#F{$dp.$D(\'endDate\')}'
+		});
+	}
+	
+	//结束时间
+	function endTimeFocus(){
+		WdatePicker({
+			maxDate : '%y-%M-%d',
+			dateFmt : 'yyyy-MM-dd HH:mm',
+			/*skin:'whyGreen',*/
+			minDate : '#F{$dp.$D(\'startDate\')}',
+			onpicked : function() {
+				associateMoreSearchTime();
+				//doPublicSearch(true, true);
+			}
+		});
+	}
+
+</script>

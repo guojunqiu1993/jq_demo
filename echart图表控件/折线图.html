@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="line_one" style="width:800px;height:600px;"></div>
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+	$(function(){
+		//时间控制 折线图
+		var result={
+			"time":["2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08","2017-10-09","2017-10-10","2017-10-11","2017-10-12","2017-10-13","2017-10-14","2017-10-15","2017-10-16","2017-10-17"],
+			"name":["全部","微博","微信","客户端","传统媒体","网站"],
+			"color":['#b15a06','#fe9700','#ccdb38','#e32063','#132782','#2c7dfa'],
+			"data":[
+					[174,236,213,166,174,201,214,206,207,287,123,345,123,56,367,146],
+					[234,136,413,266,274,301,114,306,237,297,223,445,163,26,167,46],
+					[194,216,313,166,274,401,14,306,307,187,223,345,123,56,567,146],
+					[374,136,203,66,274,201,114,306,107,297,143,445,223,26,267,246],
+					[154,246,23,16,176,211,224,236,217,297,113,315,13,406,57,346],
+					[104,26,313,176,174,211,254,236,217,297,113,305,113,461,297,46]
+				],
+			"select":{'全部':true,'微博':true,'微信':false,'客户端':false,'传统媒体' : false,'网站' : false}
+		};
+
+		echartLine(result,'line_one');
+		
+	})
+
+
+
+	function echartLine(result,id){
+		var arr = [];
+		for (var index in result.name) {
+			var item = {
+				            name:result.name[index],
+				            type:'line',
+				            showAllSymbol:true,
+				            boundaryGap : false,
+				            smooth:true,
+				            data:result.data[index]
+				        }
+			arr.push(item);        
+		}
+
+
+		//折线图
+		var myChart1 = echarts.init(document.getElementById(id));
+		option1 = {
+			    tooltip : { trigger: 'axis'},
+			    color:result["color"],
+			    legend: {
+			    	selected: result["select"],
+			        data:result["name"]
+			    },
+
+			    toolbox: {
+			        show : false,
+			        feature : {
+			            saveAsImage : {show: false}
+			        }
+			    },
+			    calculable : true,
+			    dataZoom: {
+			        show: true,
+			        start :0
+			    },
+			    grid:{
+			    	left:'60',
+			    	top:'40'
+			    	
+			    },
+			    calculable:false,
+			    xAxis : [{
+			            type : 'category',
+			            data : result["time"]
+			            }],
+			    yAxis : [{
+			            type : 'value'
+			        }],
+			    series : arr
+		};
+		myChart1.setOption(option1);
+	}
+</script>

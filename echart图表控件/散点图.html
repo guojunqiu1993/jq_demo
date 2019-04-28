@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<div id="scatter" style='width: 80%;height:500px;'></div>	
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+$(function(){
+
+  var result={
+    starTime:'2017-10-01',
+    endTime:'2017-12-01',
+    color:['#fe9700','#ccdb38','#e32063','#132782','#2c7dfa'],
+    select:{'微博' : true,'微信':true,'客户端' : true,'传统媒体':true,'网站' : true},
+    name:['微博','微信','客户端','传统媒体','网站'],
+    noScatterData:[ [["2017-10-14 20:57:45","45","29","微博","0"]] ,
+                [["2017-10-27 20:57:45","32","31","微信","0"]] ,
+                [["2017-10-16 09:57:45","25","39","客户端","1"]],
+                [["2017-10-17 20:57:45","22","25","传统媒体","2"]],
+                [["2017-10-05 20:57:45","28","35","网站","2"]]
+              ],
+    scatterData:[
+               [["2017-10-10 20:57:45","0","29","微博","0"],["2017-11-21 14:36:45","2","0","微博","0"]],
+               [["2017-10-13 20:57:45","5","29","微信","4"]],
+               [["2017-10-14 20:57:45","26","26","客户端","2"]],
+               [["2017-10-21 20:57:45","27","29","传统媒体","3"]],
+               [["2017-10-07 20:57:45","25","29","网站","2"]]
+            ]
+
+  }
+  echartScatter(result,'scatter');
+	
+})
+
+function echartScatter(result,id){
+  var arr1=[];var arr2=[];var arr3=[];
+
+  for (var index in result.noScatterData) {
+      var item1 = {
+                    name: result.name[index],
+                    type: 'scatter',
+                    showAllSymbol:true,
+                    data: result.noScatterData[index]
+                }
+      arr1.push(item1);  
+       
+    }
+
+    for(var index in result.scatterData){
+      var item2=   {
+                    name: result.name[index],
+                    type: 'effectScatter',
+                    showAllSymbol:true,
+                    data: result.scatterData[index],
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    hoverAnimation: true,
+                    label: {
+                        normal: {
+                            formatter: '{b}',
+                            position: 'right',
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: result.color[index],
+                            shadowBlur: 10,
+                            shadowColor: '#997500'
+                        }
+                    },
+                    zlevel: 1
+                }  
+      arr2.push(item2);  
+    }
+    for(var i=0;i<arr1.length;i++){
+      arr3.push(arr1[i]);
+      arr3.push(arr2[i]);
+    }
+  //散点图
+  var myChart3 = echarts.init(document.getElementById(id));
+
+  myChart3.on('click', function (param) {
+      console.log(param);
+    });
+
+  myChart3.clear();
+  option3 = {
+      color:result["color"],
+      legend: {
+          y: 'top',
+          selected:result["select"],
+          data: result["name"],
+          textStyle: {
+            color: '#000',
+            fontSize: 15
+          }
+      },
+      grid: {
+        left:'50',
+        top:'25',
+          bottom: '15%',
+          containLabel: true
+      },
+      dataZoom: {
+          show: true,
+          start :0
+      },
+      tooltip: {
+            padding: 10,
+            backgroundColor: 'rgba(30,61,114,0.8)',
+            borderColor: '#777',
+            borderWidth: 1,
+            formatter: function (obj) {
+                var value = obj.value;
+                var html='';               
+                var pathDepthHtml = value[4] || 0;               
+                html = '<div><div style="width:16vh;padding:0.3vh 0;position:relative;"><span style="position:absolute;left:0px;top:50%;margin-top:-0.5vh;width:1vh;height:1vh;line-height:1vh;background:#ff6600;border-radius:50%;display:inline-block;">'
+                     + '</span><span style="font-size:2.4vh;color:#fff;margin-left:1.4vh;">'+obj.seriesName+'</span></div>'
+                     + '<div style="margin-left:1.4vh;font-size:2vh;color:#c6cedc"><span>热度:&nbsp;</span><span>'+value[2]+'</span></div>'
+                     + '<div style="margin-left:1.4vh;font-size:2vh;color:#c6cedc"><span>层级:&nbsp;</span><span>'+pathDepthHtml+'</span></div>'
+                     + '<div style="margin-left:1.4vh;font-size:2vh;color:#c6cedc"><span>时间:&nbsp;</span><span>'+value[0]+'</span></div>'               
+                     + '</div>';
+                return html;              
+            }
+        },
+      xAxis: [
+            {
+                type : 'time',
+                min : result['startTime'],
+                max : result['endTime'],
+                offset : 10,
+                axisLabel:{
+                    show:true,
+                    textStyle:{
+                        color:'#666',   //纵坐标字体设置
+                        fontSize:16
+                    }
+                },
+                //分割线
+                splitLine: {
+                  show:false
+                },
+              axisTick: {
+                  show: false
+              },
+              axisLine: {
+                    lineStyle: {
+                        color: '#cdd8ea'
+                    }
+                }
+            }
+        ],
+      yAxis: {
+          type: 'value',  
+          nameLocation: 'end',
+          nameTextStyle: {
+              color: '#000',
+              fontSize: 16
+          },
+          offset:10,
+          axisLine: {
+              show:false
+          },
+
+          axisLabel:{
+                show:true,
+                textStyle:{
+                    color:'#666',   //纵坐标字体设置
+                    fontSize:16
+                }
+            },
+
+            axisTick: {
+                show: false
+            },
+            splitLine:{  
+                show:true,
+                lineStyle:{
+              color:'#cdd8ea',
+              width: 1
+          }
+            },
+         // max :  result.maxTimeTrendValue + parseInt(result.maxTimeTrendValue / 9)
+      },
+      visualMap: [
+          {
+              left: 'right',
+              top: '10%',
+              dimension: 2,
+              min: 0,
+              max: 250,
+              itemWidth: 30,
+              itemHeight: 120,
+              calculable: true,
+              precision: 0.1,
+              text: ['圆形大小：PM2.5'],
+              textGap: 30,
+              textStyle: {
+                  color: '#fff'
+              },
+              inRange: {
+                  symbolSize: [10, 70]
+              },
+              outOfRange: {
+                  symbolSize: [10, 70],
+                  color: ['rgba(255,255,255,.2)']
+              },
+              controller: {
+                  inRange: {
+                      color: ['#fff']
+                  },
+                  outOfRange: {
+                      color: ['#fff']
+                  }
+              }
+          }
+  
+      ],
+      series:arr3
+  };
+  myChart3.setOption(option3);
+}
+
+</script>

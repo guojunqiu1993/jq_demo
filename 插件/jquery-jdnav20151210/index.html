@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="nav.css" type="text/css">
+<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+</head>
+<body>
+
+  <div class="toolbar-wrap  ">
+    <div class=" toolbar-tab">
+      <em class="tab-text">全选</em>
+    </div>
+    <div class=" toolbar-tab  ">
+      <em class="tab-text">批量删除</em> 
+    </div>
+    <div class=" toolbar-tab ">
+     <em class="tab-text" style="line-height:30px;">批量导出<br>word</em> 
+    </div>
+    <div class=" toolbar-tab ">
+      <em class="tab-text" style="line-height:30px;">批量导出Excel</em> 
+    </div>
+    <div class=" toolbar-tab  ">
+      <em class="tab-text">批量推荐</em> 
+    </div>
+    <div class=" toolbar-tab  ">
+      <em class="tab-text">批量收藏</em> 
+    </div>
+    <div class=" toolbar-tab "> 
+      <em class="tab-text">人工聚类</em> 
+    </div>
+  </div>
+  
+  <div class="toolbar-wrap1  ">
+    <div class=" toolbar-tab "> 
+      <em class="tab-text">回到顶部</em> 
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(".toolbar-wrap1").mouseover(function(){
+      $(".toolbar-wrap").fadeIn();
+    });
+
+
+    $('.toolbar-tab').hover(
+      function (){
+         $(this).find('.tab-text').addClass("tbar-tab-hover"); 
+         $(this).find('.footer-tab-text').addClass("tbar-tab-footer-hover"); 
+         $(this).addClass("tbar-tab-selected");
+    },function(){
+         $(this).find('.tab-text').removeClass("tbar-tab-hover"); 
+         $(this).find('.footer-tab-text').removeClass("tbar-tab-footer-hover"); 
+         $(this).removeClass("tbar-tab-selected"); 
+    });
+    
+  });
+</script>
+</body>
+</html>
