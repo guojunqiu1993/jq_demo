@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="path-tree" style="width:100%;height:700px;border:solid 1px red;"></div>
+</body>
+</html>
+<script src="jquery-1.8.0.min.js"></script>
+<script src="echarts.min.js"></script>
+<script>
+
+
+var myChart1 = echarts.init(document.getElementById('path-tree'));
+option1 = {
+    title: {
+        text: 'Graph 简单示例'
+    },
+    //自定义
+    tooltip:{
+        padding: 10,
+        backgroundColor: '#222',
+        borderColor: '#777',
+        borderWidth: 1,
+        formatter:function(params){
+            var value = params.data;
+            //转发量 评论量 点击量
+            var reports_count=params.data.value1;
+            var comments_count=params.data.value2;
+            var zans_count=params.data.value3;
+            var html='';
+            if(reports_count&&comments_count&&zans_count){
+                html='<p>转发量:'+reports_count+'</p>'+'<p>评论量:'+comments_count+'</p>'+'<p>点击量:'+zans_count+'</p>';
+            }           
+            return html;
+        },
+    },
+    animationDurationUpdate: 1500,
+    animationEasingUpdate: 'quinticInOut',
+    series : [
+        {
+            type: 'graph',
+            layout: 'none',
+            symbolSize: 50,
+            roam: true,
+            label: {
+                normal: {
+                    show: true
+                }
+            },
+            edgeSymbol: ['circle', 'arrow'],
+            edgeSymbolSize: [4, 10],
+            edgeLabel: {
+                normal: {
+                    textStyle: {
+                        fontSize: 20
+                    }
+                }
+            },
+            data: [{
+                name: '节点1',
+                x: 300,
+                y: 300,
+                ignore:true,
+                categories:-1,
+                value1:12,
+                value2:34,
+                value3:25
+            }, {
+                name: '节点2',
+                x: 800,
+                y: 100,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点3',
+                x: 800,
+                y: 200,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radia1',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:45,
+                value2:26,
+                value3:38
+            },{
+                name: '节点4',
+                x: 800,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radia1',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:36,
+                value2:47,
+                value3:55
+            },{
+                name: '节点5',
+                x: 800,
+                y: 400,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radia1',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:67,
+                value2:24,
+                value3:56
+            },{
+                name: '节点6',
+                x: 800,
+                y: 500,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radia1',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:37,
+                value2:65,
+                value3:38
+            },{
+                name: '节点7',
+                x: 800,
+                y: 600,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radia1',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:45,
+                value2:27,
+                value3:76
+            },{
+                name: '节点2-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点3-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点4-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点5-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点6-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            },{
+                name: '节点7-1',
+                x: 1200,
+                y: 300,
+                itemStyle:{
+                    normal:{
+                        color: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8
+                        }
+                    }
+                },
+                value1:12,
+                value2:24,
+                value3:56
+            }],
+            links: [{
+                source: 0,
+                target: 1,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 0,
+                target: 2,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 1,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 0,
+                target: 3,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 2,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 0,
+                target: 4,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            },{
+                source: 3,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: 0.2
+                    }
+                }
+            },{
+                source: 0,
+                target: 5,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            },{
+                source: 4,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            },{
+                source: 0,
+                target: 6,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            },{
+                source: 5,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            },{
+                source: 6,
+                target: 7,
+                symbolSize: [5, 20],
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        curveness: -0.2
+                    }
+                }
+            }],
+            lineStyle: {
+                normal: {
+                    opacity: 0.9,
+                    width: 2,
+                    curveness: 0
+                }
+            }
+        }
+    ]
+};
+myChart1.setOption(option1);
+myChart1.on('click',function(param){    
+    alert(param.data.name);
+})
+
+
+
+
+
+</script>

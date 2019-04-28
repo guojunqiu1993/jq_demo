@@ -1,0 +1,114 @@
+<!DOCTYPE html>  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+    <title></title>  
+    <style type="text/css">  
+        #tip {  
+            position: absolute;  
+            height: 15px;  
+            padding: 5px;  
+            text-align: right;  
+            display: none;  
+            background: #f9f5c7;  
+            border-radius: 3px;  
+            font-size: 8px;  
+            -moz-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+            -webkit-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+            box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+        } 
+        #tip1 {  
+            position: absolute;  
+            height: 15px;  
+            padding: 5px;  
+            text-align: right;  
+            display: none;  
+            background: #f9f5c7;  
+            border-radius: 3px;  
+            font-size: 8px;  
+            -moz-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+            -webkit-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+            box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div style="position:relative;margin-bottom:200px;"><input id="txt" type="text" /><span id="tip">大写锁定已打开！</span>  </div> 
+    <div style="position:relative;"><input id="txt1" type="text" /><span id="tip1">大写锁定已打开！</span> </div>
+</body>  
+</html>  
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>  
+    <script type="text/javascript">  
+        $(function () {  
+                          
+            //keyPress可以判断当前CapsLock状态，但不能捕获CapsLock键。  
+            $(document).keypress(CapsLock_keyPress);  
+            //keyDown可以捕获CapsLock键，但不能判断CapsLock的状态。  
+            $(document).keydown(CapsLock_keydown);     
+            txt.keyup(tip).focus(function () {  
+                if (isCapslockOn)  
+                    show("tip");  
+            }).blur(function () {  
+                $("#tip").hide();  
+            }); 
+            txt1.keyup(tip1).focus(function () {  
+                if (isCapslockOn)  
+                    show1("tip1");  
+            }).blur(function () {  
+                $("#tip1").hide();  
+            });  
+        })
+
+        var txt = $("#txt"); 
+        var txt1 = $("#txt1");                 
+        var isCapslockOn;  
+        function show() {  
+            var ele = $("#tip");  
+            $(ele).css("left", txt.offset().left + 2);  
+            var top = txt.offset().top + txt.height() + 5;  
+            $(ele).css("top", top);  
+            $(ele).slideDown(200);  
+        }
+        function show1() {  
+            var ele = $("#tip1");  
+            $(ele).css("left", txt.offset().left + 2);  
+            var top = txt.offset().top + txt.height() + 5;  
+            $(ele).css("top", top);  
+            $(ele).slideDown(200);  
+        }
+        function CapsLock_keyPress(e) {  
+            var e = event || window.event;  
+            var keyCode = e.keyCode || e.which;//按键的keyCode。  
+            var isShift = e.shiftKey || (keyCode == 16) || false;//shift键是否按住。  
+            if (  
+            ((keyCode >= 65 && keyCode <= 90) && !isShift) // CapsLock打开，且没有按住shift键。  
+            || ((keyCode >= 97 && keyCode <= 122) && isShift))// CapsLock打开，且按住shift键。  
+                isCapslockOn = true;  
+            else  
+                isCapslockOn = false;  
+        }  
+        function CapsLock_keydown(e) {  
+            var keyCode = window.event ? e.keyCode : e.which;  
+            if (keyCode == 20 && isCapslockOn == true)  
+                isCapslockOn = false;  
+            else if (keyCode == 20 && isCapslockOn == false)  
+                isCapslockOn = true;  
+        }  
+        function tip() {  
+            var ele = $("#tip");  
+            if (isCapslockOn && ele.is(":hidden"))  
+                show();  
+            else if (!isCapslockOn && !ele.is(":hidden"))  
+                ele.hide();  
+        } 
+        function tip1() {  
+            var ele = $("#tip1");  
+            if (isCapslockOn && ele.is(":hidden"))  
+                show1();  
+            else if (!isCapslockOn && !ele.is(":hidden"))  
+                ele.hide();  
+        }
+
+</script>  
+
+

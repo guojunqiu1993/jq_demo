@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input">
+        <h1 style="display:none;">大写已经开启了！</h1>
+</body>
+</html>
+<script>
+
+    var input = document.querySelector("#input");
+    var h1 = document.querySelector("h1");
+
+    function toggle(elem){
+        if(elem.style.display == "block"){
+            elem.style.display = "none";
+        }else{
+            elem.style.display = "block";
+        }
+    }
+
+    input.onkeydown = function(e){
+        var e = e || window.event;
+        var capsLockKey = e.keyCode ? e.keyCode : e.which;
+        if(e.keyCode == 20){
+            toggle(h1);
+        }else{
+            h1.style.display = "none";
+        }
+    }
+
+</script>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div style="width:800px;height:auto;" id="mapChart"></div>
+</body>
+</html>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/shenzhenMap.js"></script>
+<script>
+	$(function(){
+
+		var result=[			
+			{yname: 18814, xname: "宝安区","name":"ba"},		
+			{yname: 18110, xname: "南山区","name":"ns"},
+			{yname: 5300, xname: "盐田区","name":"yt"},
+			{yname: 18340, xname: "福田区","name":"ft"},
+			{yname: 11551, xname: "龙岗区","name":"lg"},
+			{yname: 3995, xname: "大鹏新区","name":"dp"},
+			{yname: 10705, xname: "龙华区","name":"lhua"},
+			{yname: 9195, xname: "罗湖区","name":"lh"},
+			{yname: 5362, xname: "光明新区","name":"gm"},			
+			{yname: 3694, xname: "坪山区","name":"ps"}			
+		]
+		createMap(result);
+	})
+
+</script>  
